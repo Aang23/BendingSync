@@ -5,16 +5,25 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.aang23.bendingsync.ConfigManager;
+
 public class MysqlConnect {
     // TODO config file ! & Remove driver call
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/bendingsync?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-    private static final String USERNAME = "bendingsync";
-    private static final String PASSWORD = "minecraft";
+    private static String DATABASE_URL;
+    private static String USERNAME;
+    private static String PASSWORD;
     private static final String MAX_POOL = "250";
 
     private Connection connection;
     private Properties properties;
+
+    public MysqlConnect() {
+        DATABASE_URL = "jdbc:mysql://" + ConfigManager.address + ":" + ConfigManager.port + "/" + ConfigManager.database
+                + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        USERNAME = ConfigManager.username;
+        PASSWORD = ConfigManager.password;
+    }
 
     private Properties getProperties() {
         if (properties == null) {

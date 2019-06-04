@@ -27,6 +27,7 @@ public class BendingSync {
 
     @Listener
     public void onServerStart(GameAboutToStartServerEvent event) {
+        ConfigManager.setupConfig();
         MysqlUtils.setup();
     }
 
