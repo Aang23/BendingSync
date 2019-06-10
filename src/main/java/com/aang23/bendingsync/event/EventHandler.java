@@ -11,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public class EventHandler {
     @Listener
-    public static void worldSaveEvent(SaveWorldEvent event) {
+    public void worldSaveEvent(SaveWorldEvent event) {
         // Save data more often
         for (Player player : event.getTargetWorld().getPlayers()) {
             EntityPlayer mcPlayer = (EntityPlayer) player;
