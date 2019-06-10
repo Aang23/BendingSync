@@ -1,6 +1,12 @@
-package com.aang23.bendingsync;
+package com.aang23.bendingsync.storage;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import codersafterdark.reskillable.api.ReskillableRegistries;
 import codersafterdark.reskillable.api.data.PlayerData;
@@ -14,7 +20,49 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ReSkillableDataUtils {
+public class ReSkillableDataStorage {
+    public String userId;
+    public Map<String, String> levels = new HashMap<String, String>();
+
+    /**
+     * Serialize this object to a JSON string
+     * 
+     * @return
+     */
+    public String toJsonString() {
+        JSONObject data = new JSONObject();
+
+        data.put("uuid", userId);
+        data.put("levels", levels);
+
+        return data.toJSONString();
+    }
+
+    /**
+     * Restorage this object's content from a JSON string
+     * 
+     * @param in
+     */
+    public void fromJsonString(String in) {
+
+        JSONObject data = null;
+        try {
+            data = (JSONObject) new JSONParser().parse(in);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        userId = (String) data.get("uuid");
+        levels = (Map<String, String>) data.get("levels");
+    }
+
+    /**
+     * Get a storage for this player
+     * 
+     * @param player
+     * @return
+     */
     public static ReSkillableDataStorage getDataStorageFromPlayer(EntityPlayer player) {
         ReSkillableDataStorage toreturn = new ReSkillableDataStorage();
 
@@ -30,6 +78,12 @@ public class ReSkillableDataUtils {
         return toreturn;
     }
 
+    /**
+     * Apply a storage's datas to a player
+     * 
+     * @param player
+     * @param storage
+     */
     public static void setDataFromReSkillabletorage(EntityPlayer player, ReSkillableDataStorage storage) {
         PlayerData resData = PlayerDataHandler.get(player);
 
