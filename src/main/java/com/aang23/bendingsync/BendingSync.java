@@ -1,5 +1,6 @@
 package com.aang23.bendingsync;
 
+import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.google.inject.Inject;
 
@@ -16,6 +17,7 @@ public class BendingSync {
 
     @Listener
     public void onServerStart(GameAboutToStartServerEvent event) {
+        CommandRegistrar.registerCommands();
         ConfigManager.setupConfig();
         MysqlUtils.setup();
     }
