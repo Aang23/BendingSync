@@ -9,10 +9,16 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'maven'
 
 
 version = "1.0"
+
+def env = System.getenv()
+if (env.BUILD_NUMBER) {
+    version = version + "-" + "${env.BUILD_NUMBER}"
+}
+
 group = "com.aang23.bendingsync" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bendingsync"
 
@@ -79,5 +85,18 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+uploadArchives {
+    repositories {
+       mavenDeployer {
+             repository(url: "http://www.altillimity.com/nexus/content/repositories/releases") {
+             authentication(userName: mavenUser, password: mavenPassword)
+	}
+             pom.version = "$version-1.12.2"
+             pom.artifactId = "bendingsync"
+             pom.groupId = "com.aang23.bendingsync"
+       }
     }
 }
