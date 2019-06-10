@@ -34,7 +34,7 @@ public class ResetCommand implements CommandExecutor {
         BendingSyncUtils.saveDataToDatabaseForPlayer(forgePlayer);
 
         src.sendMessage(Text.builder().color(TextColors.GREEN)
-                .append(Text.of(spongePlayer.getName() + "'s datas has be cleared !'")).build());
+                .append(Text.of(spongePlayer.getName() + "'s datas has beeen cleared !'")).build());
 
         return CommandResult.success();
     }
