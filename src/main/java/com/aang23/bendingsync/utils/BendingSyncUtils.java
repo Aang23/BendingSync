@@ -133,6 +133,8 @@ public class BendingSyncUtils {
      * 
      * Permissions are provided within this plugin to do so.
      * 
+     * Disabling the override restores the Database's content
+     * 
      * @param player
      * @param value
      */
@@ -143,8 +145,10 @@ public class BendingSyncUtils {
             if (!bending_overrides.contains(uuid))
                 bending_overrides.add(uuid);
         } else {
-            if (bending_overrides.contains(uuid))
+            if (bending_overrides.contains(uuid)) {
                 bending_overrides.remove(uuid);
+                applyDataFromDatabaseToPlayer(player);
+            }
         }
     }
 
