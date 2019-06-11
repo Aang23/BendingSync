@@ -1,11 +1,13 @@
 package com.aang23.bendingsync;
 
 import com.aang23.bendingsync.commands.CommandRegistrar;
+import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
 import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
@@ -36,6 +38,7 @@ public class BendingSync {
     @Listener
     public void onForgePreInit(GameInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+        Sponge.getEventManager().registerListeners(this, new EventHandler());
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
     }
