@@ -40,6 +40,6 @@ public class EventHandler {
 
     @Listener
     public void onClaimEnter(BorderClaimEvent e, @First Player player) {
-        
+
     }
 }

@@ -129,7 +129,7 @@ public class BendingSyncUtils {
     /**
      * Enable / Disable the data override for a specific player This override allow
      * a plugin to temporarily modify a player's data (Bending / Abilities / DSS
-     * Skills) with affecting his real datas.
+     * Skills) without affecting his real datas.
      * 
      * Permissions are provided within this plugin to do so.
      * 
@@ -138,7 +138,7 @@ public class BendingSyncUtils {
      * @param player
      * @param value
      */
-    public static void setDataOverrideOn(Player player, boolean value) {
+    public static void setDataOverrideActive(Player player, boolean value) {
         String uuid = player.getUniqueId().toString();
 
         if (value) {
