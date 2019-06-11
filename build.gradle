@@ -44,6 +44,7 @@ repositories {
 	jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
         maven { url = "https://repo.spongepowered.org/maven" }
+        maven { url = "http://repo.amuzil.com/repository/public" }
 }
 
 configurations {
@@ -54,9 +55,13 @@ configurations {
 dependencies {
     compile 'org.spongepowered:spongeapi:7.1.0'
     compile 'me.lucko.luckperms:luckperms-api:4.3'
+    compile "com.crowsofwar.avatar:avatarmod:1.5.15-alpha"
+
     shade 'mysql:mysql-connector-java:8.0.12'
     shade group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
-    compile files('libs/av2.jar')
+
+    // TODO find a maven repo for those or use mine
+    compile files('libs/dss.jar')
     compile files('libs/dss.jar')
     compile files('libs/dss-api.jar')
     compile files('libs/reskillable.jar')
@@ -94,7 +99,7 @@ uploadArchives {
        mavenDeployer {
              repository(url: "http://www.altillimity.com/nexus/content/repositories/releases") {
              authentication(userName: mavenUser, password: mavenPassword)
-	}
+	    }
              pom.version = "$version-1.12.2"
              pom.artifactId = "bendingsync"
              pom.groupId = "com.aang23.bendingsync"
