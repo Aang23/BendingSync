@@ -37,7 +37,7 @@ public class BendingSync {
 
     @Listener
     public void onForgePreInit(GameInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+        MinecraftForge.EVENT_BUS.register(ForgeEventHandler.class);
         Sponge.getEventManager().registerListeners(this, new EventHandler());
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
