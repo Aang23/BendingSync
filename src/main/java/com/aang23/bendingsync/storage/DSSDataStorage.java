@@ -50,7 +50,7 @@ public class DSSDataStorage {
     }
 
     /**
-     * Returns a storage containing DSS datas for this Player
+     * Returns a storage containing DSS data storage for this Player
      * 
      * @param player
      * @return
