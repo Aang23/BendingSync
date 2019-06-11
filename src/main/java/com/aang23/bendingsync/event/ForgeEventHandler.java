@@ -6,6 +6,7 @@ import com.crowsofwar.avatar.common.event.BendingEvent;
 import me.lucko.luckperms.api.Node;
 import me.lucko.luckperms.api.User;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 
 public class ForgeEventHandler {
     private static Node preventBendingNode = BendingSync.LUCKPERMS_API.getNodeFactory()
@@ -17,5 +18,6 @@ public class ForgeEventHandler {
         User permUser = BendingSync.LUCKPERMS_API.getUser(event.getEntity().getUniqueID());
         if (permUser.hasPermission(preventBendingNode).asBoolean())
             event.setCanceled(true);
+
     }
 }

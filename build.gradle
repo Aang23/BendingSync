@@ -42,9 +42,10 @@ minecraft {
 
 repositories {
 	jcenter()
-        maven { url = "https://files.minecraftforge.net/maven" }
-        maven { url = "https://repo.spongepowered.org/maven" }
-        maven { url = "http://repo.amuzil.com/repository/public" }
+    maven { url = "https://files.minecraftforge.net/maven" }
+    maven { url = "https://repo.spongepowered.org/maven" }
+    maven { url = "http://repo.amuzil.com/repository/public" }
+    maven { url = "http://repo.drnaylor.co.uk/artifactory/list/minecraft" }
 }
 
 configurations {
@@ -57,6 +58,7 @@ dependencies {
     compile 'me.lucko.luckperms:luckperms-api:4.3'
     compile "com.crowsofwar.avatar:avatarmod:1.5.15-alpha"
     compile ("me.ryanhamshire:griefprevention:1.12.2-4.3.0.630:api") {exclude group: 'org.bstats', module: 'bstats-sponge'}
+    compile "io.github.nucleuspowered:nucleus-api:1.11.0-S7.1"
 
     shade 'mysql:mysql-connector-java:8.0.12'
     shade group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'

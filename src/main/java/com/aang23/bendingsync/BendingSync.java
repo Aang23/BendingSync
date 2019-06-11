@@ -12,6 +12,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
+import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.ryanhamshire.griefprevention.GriefPrevention;
@@ -30,13 +31,13 @@ public class BendingSync {
 
     public BendingSync() {
         INSTANCE = this;
-        LUCKPERMS_API = LuckPerms.getApi();
-        GRIEFPREVENTION_API = GriefPrevention.getApi();
     }
 
     @Listener
     public void onForgePreInit(GameInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+        LUCKPERMS_API = LuckPerms.getApi();
+        GRIEFPREVENTION_API = GriefPrevention.getApi();
     }
 
     @Listener
