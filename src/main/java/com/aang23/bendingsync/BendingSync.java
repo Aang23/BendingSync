@@ -1,27 +1,42 @@
 package com.aang23.bendingsync;
 
 import com.aang23.bendingsync.commands.CommandRegistrar;
+import com.aang23.bendingsync.event.ForgeEventHandler;
 import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.service.permission.PermissionService;
-import org.spongepowered.api.service.permission.PermissionDescription.Builder;
 
-@Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "Syncs AV2 & DSS & ReSkillable", dependencies = {@Dependency(id = "griefprevention"),@Dependency(id = "luckperms")})
+import me.lucko.luckperms.LuckPerms;
+import me.lucko.luckperms.api.LuckPermsApi;
+import me.ryanhamshire.griefprevention.GriefPrevention;
+import me.ryanhamshire.griefprevention.api.GriefPreventionApi;
+import net.minecraftforge.common.MinecraftForge;
+
+@Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "Syncs AV2 & DSS & ReSkillable", dependencies = {
+        @Dependency(id = "griefprevention"), @Dependency(id = "luckperms") })
 public class BendingSync {
     public static BendingSync INSTANCE;
+    public static LuckPermsApi LUCKPERMS_API;
+    public static GriefPreventionApi GRIEFPREVENTION_API;
 
     @Inject
     public static Logger logger;
 
-    public BendingSync(){
+    public BendingSync() {
         INSTANCE = this;
+        LUCKPERMS_API = LuckPerms.getApi();
+        GRIEFPREVENTION_API = GriefPrevention.getApi();
+    }
+
+    @Listener
+    public void onForgePreInit(GameInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
     }
 
     @Listener

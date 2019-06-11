@@ -1,5 +1,6 @@
 package com.aang23.bendingsync.event;
 
+import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 
 import org.spongepowered.api.entity.living.player.Player;
@@ -39,6 +40,6 @@ public class EventHandler {
 
     @Listener
     public void onClaimEnter(BorderClaimEvent e, @First Player player) {
-
+        
     }
 }
