@@ -4,7 +4,6 @@ import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
 import com.aang23.bendingsync.storage.ReSkillableDataStorage;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
-import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -27,11 +26,11 @@ public class ResetCommand implements CommandExecutor {
         DSSDataStorage dssStorage = new DSSDataStorage();
         ReSkillableDataStorage reskillableStorage = new ReSkillableDataStorage();
 
-        BendingDataStorage.setDataDromBendingStorage(Bender.get(forgePlayer), bendingStorage);
+        BendingDataStorage.setDataDromBendingStorage(forgePlayer, bendingStorage);
         DSSDataStorage.setDataFromDSSStorage(forgePlayer, dssStorage);
         ReSkillableDataStorage.setDataFromReSkillabletorage(forgePlayer, reskillableStorage);
 
-        BendingSyncUtils.saveDataToDatabaseForPlayer(forgePlayer);
+        BendingSyncUtils.saveDataToDatabaseForPlayer(spongePlayer);
 
         src.sendMessage(Text.builder().color(TextColors.GREEN)
                 .append(Text.of(spongePlayer.getName() + "'s datas has beeen cleared !'")).build());

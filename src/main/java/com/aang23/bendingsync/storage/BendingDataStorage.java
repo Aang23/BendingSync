@@ -17,6 +17,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 public class BendingDataStorage {
     public String userId;
     public List<String> bendings = new ArrayList<String>();
@@ -75,10 +77,12 @@ public class BendingDataStorage {
     /**
      * Return a BendingDataStorage filled with datas from the specified Bender
      * 
-     * @param bender
+     * @param player
      * @return
      */
-    public static BendingDataStorage getDataStorageFromBender(Bender bender) {
+    public static BendingDataStorage getDataStorageFromBender(EntityPlayer player) {
+        Bender bender = Bender.get(player);
+
         BendingDataStorage toreturn = new BendingDataStorage();
 
         toreturn.userId = bender.getInfo().getId().toString();
@@ -102,10 +106,12 @@ public class BendingDataStorage {
     /**
      * Restore BedingData from a storage to a Bender
      * 
-     * @param bender
+     * @param player
      * @param storage
      */
-    public static void setDataDromBendingStorage(Bender bender, BendingDataStorage storage) {
+    public static void setDataDromBendingStorage(EntityPlayer player, BendingDataStorage storage) {
+        Bender bender = Bender.get(player);
+
         if (bender.getInfo().getId().toString().equals(storage.userId)) {
             bender.getData().clearAbilityData();
             bender.getData().clearBending();
