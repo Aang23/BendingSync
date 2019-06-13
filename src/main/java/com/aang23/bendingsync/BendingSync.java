@@ -4,12 +4,14 @@ import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
 import com.aang23.bendingsync.mysql.MysqlUtils;
+import com.aang23.bendingsync.network.NeatInfoPacket;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
+import org.spongepowered.api.event.game.state.GameConstructionEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
@@ -20,6 +22,9 @@ import me.lucko.luckperms.api.LuckPermsApi;
 import me.ryanhamshire.griefprevention.GriefPrevention;
 import me.ryanhamshire.griefprevention.api.GriefPreventionApi;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "Syncs AV2 & DSS & ReSkillable", dependencies = {
         @Dependency(id = "griefprevention"), @Dependency(id = "luckperms") })
@@ -27,12 +32,19 @@ public class BendingSync {
     public static BendingSync INSTANCE;
     public static LuckPermsApi LUCKPERMS_API;
     public static GriefPreventionApi GRIEFPREVENTION_API;
+    public static SimpleNetworkWrapper NETWORK;
 
     @Inject
     public static Logger logger;
 
     public BendingSync() {
         INSTANCE = this;
+    }
+
+    @Listener
+    public void onTest(GameConstructionEvent event){
+        NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("neat");
+		NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
     }
 
     @Listener
