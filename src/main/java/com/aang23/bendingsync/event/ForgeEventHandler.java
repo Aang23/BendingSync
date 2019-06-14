@@ -19,7 +19,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public static void onBending(BendingEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {
-            Player spongePlayer = (Player) event.getEntity(); // TODO use luckperms ! if
+            Player spongePlayer = (Player) event.getEntity(); // TODO use luckperms !
             if (spongePlayer.hasPermission("bendingsync.bending.disable"))
                 event.setCanceled(true);
         }
@@ -30,25 +30,27 @@ public class ForgeEventHandler {
     // TODO Implements perms such as bendingsync.override.waterbending to give a
     // specific bending (Waiting FavouriteDragon's methods)
     // Also reset datas when activating the override
+    private static long ranTimes = 0;
+
     @SubscribeEvent
     public static void onTick(WorldTickEvent e) {
-        for (Player player : Sponge.getServer().getOnlinePlayers()) {
-            boolean shouldOverride = player.hasPermission("bendingsync.override.enable");
-            if (shouldOverride && !BendingSyncUtils.isDataOverriden(player))
-                BendingSyncUtils.setDataOverrideActive(player, true);
-            else
-                BendingSyncUtils.setDataOverrideActive(player, false);
+        ranTimes++;
 
-            EntityTracker et = ((WorldServer) player.getWorld()).getEntityTracker();
-            String prefix = BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).getCachedData()
-                    .getMetaData(BendingSync.LUCKPERMS_API
-                            .getContextForUser(BendingSync.LUCKPERMS_API.getUser(player.getUniqueId())).get())
-                    .getPrefix();
+        if (ranTimes % 20 == 0) {
 
-            if (prefix == null)
-                prefix = "";
-            et.sendToTracking((EntityPlayer) player, BendingSync.NETWORK
-                    .getPacketFrom(new NeatInfoPacket(((EntityPlayer) player).getEntityId(), prefix)));
+            for (Player player : Sponge.getServer().getOnlinePlayers()) {
+                boolean shouldOverride = player.hasPermission("bendingsync.override.enable");
+                if (shouldOverride && !BendingSyncUtils.isDataOverriden(player))
+                    BendingSyncUtils.setDataOverrideActive(player, true);
+                else
+                    BendingSyncUtils.setDataOverrideActive(player, false);
+
+                BendingSyncUtils.sendNeatUpdatePacketFor(player);
+            }
         }
+
+        // Safety
+        if (ranTimes == Long.MAX_VALUE)
+            ranTimes = 0;
     }
 }

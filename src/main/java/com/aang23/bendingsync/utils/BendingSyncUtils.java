@@ -8,14 +8,17 @@ import java.util.concurrent.TimeUnit;
 
 import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.mysql.MysqlUtils;
+import com.aang23.bendingsync.network.NeatInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
 import com.aang23.bendingsync.storage.ReSkillableDataStorage;
 
 import org.spongepowered.api.entity.living.player.Player;
 
+import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.WorldServer;
 
 public class BendingSyncUtils {
     private static List<String> bending_overrides = new ArrayList<String>();
@@ -161,5 +164,22 @@ public class BendingSyncUtils {
     public static boolean isDataOverriden(Player player) {
         String uuid = player.getUniqueId().toString();
         return bending_overrides.contains(uuid);
+    }
+
+    /**
+     * Send the Neat info packet to tracking entity for a specified player.
+     * 
+     * @param player
+     */
+    public static void sendNeatUpdatePacketFor(Player player) {
+        EntityTracker et = ((WorldServer) player.getWorld()).getEntityTracker();
+        String prefix = BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).getCachedData()
+                .getMetaData(BendingSync.LUCKPERMS_API
+                        .getContextForUser(BendingSync.LUCKPERMS_API.getUser(player.getUniqueId())).get())
+                .getPrefix();
+        if (prefix == null)
+            prefix = "";
+        et.sendToTracking((EntityPlayer) player,
+                BendingSync.NETWORK.getPacketFrom(new NeatInfoPacket(((EntityPlayer) player).getEntityId(), prefix)));
     }
 }

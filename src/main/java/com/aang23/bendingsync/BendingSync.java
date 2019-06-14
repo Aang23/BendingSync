@@ -1,5 +1,7 @@
 package com.aang23.bendingsync;
 
+import java.util.Timer;
+
 import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
@@ -11,7 +13,6 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
-import org.spongepowered.api.event.game.state.GameConstructionEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
@@ -42,17 +43,13 @@ public class BendingSync {
     }
 
     @Listener
-    public void onTest(GameConstructionEvent event){
-        NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("neat");
-		NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
-    }
-
-    @Listener
     public void onForgePreInit(GameInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler.class);
         Sponge.getEventManager().registerListeners(this, new EventHandler());
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
+        NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("neat");
+        NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
     }
 
     @Listener
