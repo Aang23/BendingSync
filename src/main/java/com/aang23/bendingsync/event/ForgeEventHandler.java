@@ -8,6 +8,7 @@ import com.crowsofwar.avatar.common.event.BendingEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
+import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.WorldServer;
@@ -20,6 +21,12 @@ public class ForgeEventHandler {
     public static void onBending(BendingEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {
             Player spongePlayer = (Player) event.getEntity(); // TODO use luckperms !
+
+            if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
+                event.setCanceled(true);
+                return;
+            }
+
             if (spongePlayer.hasPermission("bendingsync.bending.disable"))
                 event.setCanceled(true);
         }
