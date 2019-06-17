@@ -36,7 +36,6 @@ public class ForgeEventHandler {
     // Enable the override if this player got a permission for it.
     // TODO Implements perms such as bendingsync.override.waterbending to give a
     // specific bending (Waiting FavouriteDragon's methods)
-    // Also reset datas when activating the override
     private static long ranTimes = 0;
 
     @SubscribeEvent

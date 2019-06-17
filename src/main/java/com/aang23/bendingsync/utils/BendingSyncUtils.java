@@ -12,6 +12,7 @@ import com.aang23.bendingsync.network.NeatInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
 import com.aang23.bendingsync.storage.ReSkillableDataStorage;
+import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -145,8 +146,12 @@ public class BendingSyncUtils {
         String uuid = player.getUniqueId().toString();
 
         if (value) {
-            if (!bending_overrides.contains(uuid))
+            if (!bending_overrides.contains(uuid)) {
                 bending_overrides.add(uuid);
+                Bender bender = Bender.get((EntityPlayer) player);
+                bender.getData().clearAbilityData();
+                bender.getData().clearBending();
+            }
         } else {
             if (bending_overrides.contains(uuid)) {
                 bending_overrides.remove(uuid);
