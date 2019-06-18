@@ -12,13 +12,6 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 
 
-version = "1.0"
-
-def env = System.getenv()
-if (env.BUILD_NUMBER) {
-    version = version + "-" + "${env.BUILD_NUMBER}"
-}
-
 group = "com.aang23.bendingsync" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bendingsync-sponge"
 

@@ -12,13 +12,6 @@ apply plugin: 'maven'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.0"
-
-def env = System.getenv()
-if (env.BUILD_NUMBER) {
-    version = version + "-" + "${env.BUILD_NUMBER}"
-}
-
 group = "com.aang23.bendingsync" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "bendingsync-forge"
 
