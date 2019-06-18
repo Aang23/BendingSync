@@ -1,21 +1,15 @@
 package com.aang23.bendingsync;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import com.google.gson.stream.JsonWriter;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.File;
 
 public class ConfigManager {
     private static final Path config_path = new File("config").toPath();

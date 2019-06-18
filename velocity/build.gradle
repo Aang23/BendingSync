@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'eclipse'
+}
+
+group 'com.aang23'
+version '1.0'
+
+def env = System.getenv()
+if (env.BUILD_NUMBER) {
+    version = version + "-" + "${env.BUILD_NUMBER}"
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'velocity'
+        url = 'https://repo.velocitypowered.com/snapshots/'
+    }
+}
+
+dependencies {
+    compileOnly 'com.velocitypowered:velocity-api:1.0.0-SNAPSHOT'
+}
+
+uploadArchives {
+    repositories {
+       mavenDeployer {
+             repository(url: "http://www.altillimity.com/nexus/content/repositories/releases") {
+             authentication(userName: mavenUser, password: mavenPassword)
+	    }
+             pom.version = "$version-1.0.x"
+             pom.artifactId = "bendingsync-velocity"
+             pom.groupId = "com.aang23.bendingsync"
+       }
+    }
+}

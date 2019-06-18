@@ -1,6 +1,5 @@
 package com.aang23.bendingsync.event;
 
-import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 
 import org.spongepowered.api.entity.living.player.Player;
@@ -25,7 +24,6 @@ public class EventHandler {
     public void onPlayerLogin(ClientConnectionEvent.Join event) {
         // Apply data on login
         if (event.getSource() instanceof Player) {
-            EntityPlayer mcPlayer = (EntityPlayer) event.getSource();
             BendingSyncUtils.applyDataFromDatabaseToPlayer((Player) event.getSource());
         }
     }

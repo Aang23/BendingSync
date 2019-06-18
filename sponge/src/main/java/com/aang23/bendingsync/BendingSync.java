@@ -1,7 +1,5 @@
 package com.aang23.bendingsync;
 
-import java.util.Timer;
-
 import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
@@ -17,14 +15,13 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
-import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
 import me.ryanhamshire.griefprevention.GriefPrevention;
 import me.ryanhamshire.griefprevention.api.GriefPreventionApi;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "Syncs AV2 & DSS & ReSkillable", dependencies = {
@@ -48,7 +45,7 @@ public class BendingSync {
         Sponge.getEventManager().registerListeners(this, new EventHandler());
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
-        NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("neat");
+        NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
         NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
     }
 

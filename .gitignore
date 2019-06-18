@@ -1,6 +1,10 @@
 # eclipse
 bin
 *.launch
+*/.settings
+*/.metadata
+*/.classpath
+*/.project
 .settings
 .metadata
 .classpath
@@ -11,12 +15,18 @@ out
 *.ipr
 *.iws
 *.iml
+*/.idea
 .idea
 
 # gradle
+*/build
+*/bin
 build
+bin
 .gradle
 
 # other
+*/eclipse
+*/run
 eclipse
 run

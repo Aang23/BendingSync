@@ -1,7 +1,5 @@
 package com.aang23.bendingsync.event;
 
-import com.aang23.bendingsync.BendingSync;
-import com.aang23.bendingsync.network.NeatInfoPacket;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 import com.crowsofwar.avatar.common.event.BendingEvent;
 
@@ -9,9 +7,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 
 import io.github.nucleuspowered.nucleus.api.NucleusAPI;
-import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
@@ -20,7 +16,7 @@ public class ForgeEventHandler {
     @SubscribeEvent
     public static void onBending(BendingEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {
-            Player spongePlayer = (Player) event.getEntity(); // TODO use luckperms !
+            Player spongePlayer = (Player) event.getEntity();
 
             if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
                 event.setCanceled(true);
