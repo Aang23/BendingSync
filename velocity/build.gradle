@@ -13,6 +13,7 @@ if (env.BUILD_NUMBER) {
 }
 
 sourceCompatibility = 1.8
+archivesBaseName = "bendingsync-velocity"
 
 repositories {
     mavenCentral()
@@ -23,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.velocitypowered:velocity-api:1.0.0-SNAPSHOT'
+    compileOnly 'com.velocitypowered:velocity-api:1.0.1-SNAPSHOT'
 }
 
 uploadArchives {
