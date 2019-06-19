@@ -11,14 +11,12 @@ import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
-import com.aang23.bendingsync.storage.ReSkillableDataStorage;
 import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.entity.living.player.Player;
 
 import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 
 public class BendingSyncUtils {
@@ -52,15 +50,6 @@ public class BendingSyncUtils {
             MysqlUtils.delSwordsman(mcPlayer.getCachedUniqueIdString());
             MysqlUtils.addSwordsman(mcPlayer.getCachedUniqueIdString(),
                     DSSDataStorage.getDataStorageFromPlayer(mcPlayer).toJsonString());
-        }
-
-        if (!MysqlUtils.doesReskillableUserExists(mcPlayer.getCachedUniqueIdString()))
-            MysqlUtils.addReskillableUser(mcPlayer.getCachedUniqueIdString(),
-                    ReSkillableDataStorage.getDataStorageFromPlayer(mcPlayer).toJsonString());
-        else {
-            MysqlUtils.delRekillableUser(mcPlayer.getCachedUniqueIdString());
-            MysqlUtils.addReskillableUser(mcPlayer.getCachedUniqueIdString(),
-                    ReSkillableDataStorage.getDataStorageFromPlayer(mcPlayer).toJsonString());
         }
     }
 
@@ -103,29 +92,6 @@ public class BendingSyncUtils {
                     DSSDataStorage.setDataFromDSSStorage(mcPlayer, dssStorage);
                 } else
                     BendingSync.logger.info("No data for swordsman " + mcPlayer.getCachedUniqueIdString());
-            }
-        }, 4, TimeUnit.SECONDS);
-
-        final ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
-
-        exec.schedule(new Runnable() {
-
-            @Override
-            public void run() {
-
-                ((EntityPlayerMP) mcPlayer).getServerWorld().addScheduledTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Sync Reskillable
-                        if (MysqlUtils.doesReskillableUserExists(mcPlayer.getCachedUniqueIdString())) {
-                            ReSkillableDataStorage dssStorage = new ReSkillableDataStorage();
-                            dssStorage.fromJsonString(MysqlUtils.getRekillableData(mcPlayer.getCachedUniqueIdString()));
-                            ReSkillableDataStorage.setDataFromReSkillabletorage(mcPlayer, dssStorage);
-                        } else
-                            BendingSync.logger
-                                    .info("No data for reskillable user " + mcPlayer.getCachedUniqueIdString());
-                    }
-                });
             }
         }, 4, TimeUnit.SECONDS);
     }

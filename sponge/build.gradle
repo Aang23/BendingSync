@@ -51,9 +51,7 @@ dependencies {
 
     // TODO find a maven repo for those or use mine
     compile files('libs/dss.jar')
-    compile files('libs/dss.jar')
     compile files('libs/dss-api.jar')
-    compile files('libs/reskillable.jar')
 }
 
 jar {
