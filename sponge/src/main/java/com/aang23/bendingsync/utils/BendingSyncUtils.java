@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.mysql.MysqlUtils;
-import com.aang23.bendingsync.network.NeatInfoPacket;
+import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
 import com.aang23.bendingsync.storage.ReSkillableDataStorage;
@@ -185,6 +185,6 @@ public class BendingSyncUtils {
         if (prefix == null)
             prefix = "";
         et.sendToTracking((EntityPlayer) player,
-                BendingSync.NETWORK.getPacketFrom(new NeatInfoPacket(((EntityPlayer) player).getEntityId(), prefix)));
+                BendingSync.NETWORK.getPacketFrom(new PlayerInfoPacket(((EntityPlayer) player).getEntityId(), prefix)));
     }
 }

@@ -4,7 +4,7 @@ import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
 import com.aang23.bendingsync.mysql.MysqlUtils;
-import com.aang23.bendingsync.network.NeatInfoPacket;
+import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.network.ServerSwitchPacket;
 import com.google.inject.Inject;
 
@@ -47,7 +47,7 @@ public class BendingSync {
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
         NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
-        NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
+        NETWORK.registerMessage(PlayerInfoPacket.Handler.class, PlayerInfoPacket.class, 1, Side.CLIENT);
         NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 2, Side.SERVER);
     }
 

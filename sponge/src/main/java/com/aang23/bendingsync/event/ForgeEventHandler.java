@@ -47,7 +47,7 @@ public class ForgeEventHandler {
                 else
                     BendingSyncUtils.setDataOverrideActive(player, false);
 
-                //BendingSyncUtils.sendNeatUpdatePacketFor(player);
+                BendingSyncUtils.sendNeatUpdatePacketFor(player);
             }
         }
 
