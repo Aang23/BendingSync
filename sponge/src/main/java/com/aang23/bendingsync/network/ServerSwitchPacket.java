@@ -4,12 +4,12 @@ import com.aang23.bendingsync.BendingSync;
 import com.google.common.base.Charsets;
 
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.entity.living.player.Player;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import redis.clients.jedis.Jedis;
 
 public class ServerSwitchPacket implements IMessage {
 
@@ -59,11 +59,10 @@ public class ServerSwitchPacket implements IMessage {
 
         @Override
         public IMessage onMessage(ServerSwitchPacket message, MessageContext ctx) {
-            if (Sponge.getServer().getOnlinePlayers().size() > 0) {
-                Player player = (Player) Sponge.getServer().getOnlinePlayers().toArray()[0];
-                BendingSync.PROXY_NETWORK.sendTo(player,
-                        buf -> buf.writeUTF("SendToServer").writeUTF(message.getName()).writeUTF(message.getTarget()));
-            }
+            System.out.println(message.getName() + " " + message.getTarget());
+            Jedis jedis = new Jedis("192.168.1.16");
+            jedis.publish("bendingsync", "SendToServer:" + message.getName() + ":" + message.getTarget());
+            jedis.close();
             return null;
         }
     }

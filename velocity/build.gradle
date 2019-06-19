@@ -16,8 +16,23 @@ repositories {
     }
 }
 
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+
 dependencies {
     compileOnly 'com.velocitypowered:velocity-api:1.0.1-SNAPSHOT'
+
+    shade group: 'redis.clients', name: 'jedis', version: '3.1.0-m3'
+}
+
+jar {
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
 }
 
 uploadArchives {
