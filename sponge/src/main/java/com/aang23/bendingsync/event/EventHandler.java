@@ -9,7 +9,6 @@ import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.world.SaveWorldEvent;
 
 import me.ryanhamshire.griefprevention.api.event.BorderClaimEvent;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class EventHandler {
     @Listener

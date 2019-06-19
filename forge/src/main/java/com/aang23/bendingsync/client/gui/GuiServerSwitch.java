@@ -4,19 +4,10 @@ import java.io.IOException;
 
 import com.aang23.bendingsync.BendingSync;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class GuiServerSwitch extends GuiScreen {
     public static final ResourceLocation BACKGROUND = new ResourceLocation(BendingSync.MODID, "textures/gui/img.png");
@@ -26,7 +17,7 @@ public class GuiServerSwitch extends GuiScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) {
-     
+
     }
 
     @Override
@@ -43,11 +34,11 @@ public class GuiServerSwitch extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        //mc.getTextureManager().bindTexture(BACKGROUND);
-        //drawTexturedModalRect(0, 0, 0, 0, 1920, 1080);
-        //drawModalRectWithCustomSizedTexture(0, 0, 0, 0, width, height, 1920, 1080);
+        // mc.getTextureManager().bindTexture(BACKGROUND);
+        // drawTexturedModalRect(0, 0, 0, 0, 1920, 1080);
+        // drawModalRectWithCustomSizedTexture(0, 0, 0, 0, width, height, 1920, 1080);
 
-        mc.fontRenderer.drawString(TextFormatting.BOLD + "Lobby menu", width/2 - 50, 2, 4210752);
+        mc.fontRenderer.drawString(TextFormatting.BOLD + "Lobby menu", width / 2 - 50, 2, 4210752);
 
         lobby.drawButton(mc, mouseX, mouseY, partialTicks);
         survival.drawButton(mc, mouseX, mouseY, partialTicks);
@@ -60,18 +51,18 @@ public class GuiServerSwitch extends GuiScreen {
 
         if (lobby.isMouseOver()) {
             mc.player.closeScreen();
-            mc.player.sendChatMessage("/server lobby");
-            System.out.println("Lobby");
+            BendingSync.sendSwitchPacket("lobby");
+            BendingSync.logger.info("Lobby");
         }
         if (survival.isMouseOver()) {
             mc.player.closeScreen();
-            mc.player.sendChatMessage("/server survival");
-            System.out.println("Survival");
+            BendingSync.sendSwitchPacket("survival");
+            BendingSync.logger.info("Survival");
         }
         if (games.isMouseOver()) {
             mc.player.closeScreen();
-            mc.player.sendChatMessage("/server games");
-            System.out.println("Games");
+            BendingSync.sendSwitchPacket("games");
+            BendingSync.logger.info("Games");
         }
     }
 

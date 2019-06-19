@@ -5,6 +5,7 @@ import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
 import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.NeatInfoPacket;
+import com.aang23.bendingsync.network.ServerSwitchPacket;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.network.ChannelBinding.RawDataChannel;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -31,6 +33,7 @@ public class BendingSync {
     public static LuckPermsApi LUCKPERMS_API;
     public static GriefPreventionApi GRIEFPREVENTION_API;
     public static SimpleNetworkWrapper NETWORK;
+    public static RawDataChannel PROXY_NETWORK;
 
     @Inject
     public static Logger logger;
@@ -47,6 +50,8 @@ public class BendingSync {
         GRIEFPREVENTION_API = GriefPrevention.getApi();
         NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
         NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
+        NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 1, Side.SERVER);
+        PROXY_NETWORK = Sponge.getChannelRegistrar().getOrCreateRaw(BendingSync.INSTANCE, "BendingSync");
     }
 
     @Listener

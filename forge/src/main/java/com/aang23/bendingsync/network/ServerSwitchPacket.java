@@ -7,42 +7,45 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-/*public class ServerSwitchPacket implements IMessage {
+public class ServerSwitchPacket implements IMessage {
 
-    private int useridlength;
-    private String userid;
-    private int serverlength;
-    private String servername;
+    private int uuid_length;
+    private String uuid;
+    private int target_length;
+    private String target;
 
     public ServerSwitchPacket() {
     }
 
-    public ServerSwitchPacket(int entityId, String prefix) {
-        this.entityId = entityId;
-        this.length = prefix.length();
-        this.prefix = prefix;
+    public ServerSwitchPacket(String uuid, String target) {
+        this.uuid_length = uuid.length();
+        this.uuid = uuid;
+        this.target_length = target.length();
+        this.target = target;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        entityId = buf.readInt();
-        length = buf.readInt();
-        prefix = buf.readCharSequence(length, Charsets.UTF_8).toString();
+        uuid_length = buf.readInt();
+        uuid = buf.readCharSequence(uuid_length, Charsets.UTF_8).toString();
+        target_length = buf.readInt();
+        target = buf.readCharSequence(target_length, Charsets.UTF_8).toString();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(entityId);
-        buf.writeInt(length);
-        buf.writeCharSequence(prefix, Charsets.UTF_8);
+        buf.writeInt(uuid_length);
+        buf.writeCharSequence(uuid, Charsets.UTF_8);
+        buf.writeInt(target_length);
+        buf.writeCharSequence(target, Charsets.UTF_8);
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getUuid() {
+        return uuid;
     }
 
-    public int getEntityId() {
-        return entityId;
+    public String getTarget() {
+        return target;
     }
 
     public static class Handler implements IMessageHandler<ServerSwitchPacket, IMessage> {
@@ -55,4 +58,4 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
             return null;
         }
     }
-}*/
+}
