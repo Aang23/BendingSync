@@ -37,7 +37,7 @@ public class BendingSync {
         MinecraftForge.EVENT_BUS.register(this);
         ClientRegistry.registerKeyBinding(stats);
         NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
-        NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 1, Side.SERVER);
+        NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 2, Side.SERVER);
     }
 
     @EventHandler

@@ -50,7 +50,7 @@ public class BendingSync {
         GRIEFPREVENTION_API = GriefPrevention.getApi();
         NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
         NETWORK.registerMessage(NeatInfoPacket.Handler.class, NeatInfoPacket.class, 1, Side.CLIENT);
-        NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 1, Side.SERVER);
+        NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 2, Side.SERVER);
         PROXY_NETWORK = Sponge.getChannelRegistrar().getOrCreateRaw(BendingSync.INSTANCE, "BendingSync");
     }
 
