@@ -13,6 +13,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -24,6 +25,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+import redis.clients.jedis.Jedis;
 
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "Syncs AV2 & DSS & ReSkillable", dependencies = {
         @Dependency(id = "griefprevention"), @Dependency(id = "luckperms") })
@@ -32,6 +34,7 @@ public class BendingSync {
     public static LuckPermsApi LUCKPERMS_API;
     public static GriefPreventionApi GRIEFPREVENTION_API;
     public static SimpleNetworkWrapper NETWORK;
+    public static Jedis REDIS;
 
     @Inject
     public static Logger logger;
@@ -44,6 +47,7 @@ public class BendingSync {
     public void onForgePreInit(GameInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler.class);
         Sponge.getEventManager().registerListeners(this, new EventHandler());
+        REDIS = new Jedis(ConfigManager.redis_address);
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
         NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
@@ -56,5 +60,10 @@ public class BendingSync {
         CommandRegistrar.registerCommands();
         ConfigManager.setupConfig();
         MysqlUtils.setup();
+    }
+
+    @Listener
+    public void onServerStop(GameStoppingEvent event){
+        REDIS.close();
     }
 }

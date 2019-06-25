@@ -21,6 +21,7 @@ public class ConfigManager {
     public static String password;
     public static String database;
     public static String port;
+    public static String redis_address;
 
     public static void setupConfig() {
         if (!config_path.toFile().exists())
@@ -50,6 +51,7 @@ public class ConfigManager {
         password = (String) config.get("password");
         database = (String) config.get("database");
         port = (String) config.get("port");
+        redis_address = (String) config.get("redis_address");
     }
 
     private static void writeInitialConfig() throws FileNotFoundException {
@@ -60,6 +62,7 @@ public class ConfigManager {
         configfile.put("password", "minecraft");
         configfile.put("database", "bendingsync");
         configfile.put("port", "3306");
+        configfile.put("redis_address", "localhost");
 
         PrintWriter pw = new PrintWriter(config_path.toString() + "/bendingsync.json");
         pw.write(configfile.toJSONString());

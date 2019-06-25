@@ -1,6 +1,7 @@
 package com.aang23.bendingsync.network;
 
 import com.aang23.bendingsync.BendingSync;
+import com.aang23.bendingsync.ConfigManager;
 import com.google.common.base.Charsets;
 
 import org.spongepowered.api.Sponge;
@@ -59,10 +60,7 @@ public class ServerSwitchPacket implements IMessage {
 
         @Override
         public IMessage onMessage(ServerSwitchPacket message, MessageContext ctx) {
-            System.out.println(message.getName() + " " + message.getTarget());
-            Jedis jedis = new Jedis("192.168.1.16");
-            jedis.publish("bendingsync", "SendToServer:" + message.getName() + ":" + message.getTarget());
-            jedis.close();
+            BendingSync.REDIS.publish("bendingsync", "SendToServer:" + message.getName() + ":" + message.getTarget());
             return null;
         }
     }
