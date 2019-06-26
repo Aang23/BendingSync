@@ -19,6 +19,8 @@ import redis.clients.jedis.JedisPubSub;
 
 import org.slf4j.Logger;
 
+import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
+
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "A plugin", authors = { "Aang23" })
 public class BendingSync {
     public static ProxyServer server;
@@ -72,6 +74,11 @@ public class BendingSync {
                         RegisteredServer info = server.getServer(args[2]).get();
                         player.createConnectionRequest(info).fireAndForget();
                     }
+                }
+                if (args[0].equals("BroadCast")) {
+                    server.broadcast(LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&'));
+                    server.getConsoleCommandSource()
+                            .sendMessage(LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&'));
                 }
             }
         };

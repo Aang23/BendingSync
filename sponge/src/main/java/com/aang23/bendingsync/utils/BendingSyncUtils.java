@@ -153,4 +153,13 @@ public class BendingSyncUtils {
         et.sendToTracking((EntityPlayer) player,
                 BendingSync.NETWORK.getPacketFrom(new PlayerInfoPacket(((EntityPlayer) player).getEntityId(), prefix)));
     }
+
+    /**
+     * Sends a message to the whole network
+     * 
+     * @param message
+     */
+    public static void broadcastOnWholeServer(String message) {
+        BendingSync.REDIS.publish("bendingsync", "BroadCast:" + message);
+    }
 }
