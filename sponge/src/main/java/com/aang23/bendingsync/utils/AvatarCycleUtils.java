@@ -32,6 +32,8 @@ public class AvatarCycleUtils {
         for (BendingStyle style : BendingStyles.all())
             data.addBending(style);
 
+        BendingSyncUtils.saveDataToDatabaseForPlayer(player);
+
         BendingSyncUtils.broadcastOnWholeServer("&3" + player.getName() + " is the new Avatar !");
     }
 
@@ -49,6 +51,8 @@ public class AvatarCycleUtils {
 
         // TODO REMOVE FROM GROUP
         // BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).in
+
+        BendingSyncUtils.saveDataToDatabaseForPlayer(player);
 
         BendingSyncUtils.broadcastOnWholeServer("&3" + player.getName() + " is not the Avatar anymore...");
     }
