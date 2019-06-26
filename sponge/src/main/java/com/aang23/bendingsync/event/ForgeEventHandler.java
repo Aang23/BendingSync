@@ -2,6 +2,10 @@ package com.aang23.bendingsync.event;
 
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 import com.crowsofwar.avatar.common.event.AbilityUseEvent;
+import com.crowsofwar.avatar.common.event.AbilityLevelEvent;
+import com.crowsofwar.avatar.common.event.AbilityUnlockEvent;
+import com.crowsofwar.avatar.common.event.ElementRemoveEvent;
+import com.crowsofwar.avatar.common.event.ElementUnlockEvent;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
@@ -25,6 +29,38 @@ public class ForgeEventHandler {
 
             if (spongePlayer.hasPermission("bendingsync.bending.disable"))
                 event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBendingLevelChange(AbilityLevelEvent event) {
+        if (event.getEntity() instanceof EntityPlayer) {
+            Player player = (Player) event.getEntity();
+            BendingSyncUtils.saveDataToDatabaseForPlayer(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBendingAbilityUnlock(AbilityUnlockEvent event) {
+        if (event.getEntity() instanceof EntityPlayer) {
+            Player player = (Player) event.getEntity();
+            BendingSyncUtils.saveDataToDatabaseForPlayer(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBendingElementRemove(ElementRemoveEvent event) {
+        if (event.getEntity() instanceof EntityPlayer) {
+            Player player = (Player) event.getEntity();
+            BendingSyncUtils.saveDataToDatabaseForPlayer(player);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBendingElementUnlock(ElementUnlockEvent event) {
+        if (event.getEntity() instanceof EntityPlayer) {
+            Player player = (Player) event.getEntity();
+            BendingSyncUtils.saveDataToDatabaseForPlayer(player);
         }
     }
 
