@@ -1,5 +1,6 @@
 package com.aang23.bendingsync.utils;
 
+import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.crowsofwar.avatar.common.bending.BendingStyle;
 import com.crowsofwar.avatar.common.bending.BendingStyles;
@@ -7,6 +8,8 @@ import com.crowsofwar.avatar.common.data.BendingData;
 
 import org.spongepowered.api.entity.living.player.Player;
 
+import me.lucko.luckperms.api.Group;
+import me.lucko.luckperms.api.Node;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class AvatarCycleUtils {
@@ -25,8 +28,9 @@ public class AvatarCycleUtils {
         data.clearAbilityData();
         data.clearBending();
 
-        // TODO ADD TO GROUP
-        // BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).group
+        Group avatarGroup = BendingSync.LUCKPERMS_API.getGroup("avatar");
+        Node avatarGroupPerm = BendingSync.LUCKPERMS_API.getNodeFactory().makeGroupNode(avatarGroup).build();
+        BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).setPermission(avatarGroupPerm);
 
         // Should give all bendings by default ? Should send explanations !
         for (BendingStyle style : BendingStyles.all())
@@ -51,8 +55,9 @@ public class AvatarCycleUtils {
         data.clearAbilityData();
         data.clearBending();
 
-        // TODO REMOVE FROM GROUP
-        // BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).in
+        Group avatarGroup = BendingSync.LUCKPERMS_API.getGroup("avatar");
+        Node avatarGroupPerm = BendingSync.LUCKPERMS_API.getNodeFactory().makeGroupNode(avatarGroup).build();
+        BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).unsetPermission(avatarGroupPerm);
 
         data.saveAll();
 
