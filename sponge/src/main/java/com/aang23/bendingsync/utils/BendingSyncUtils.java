@@ -77,7 +77,7 @@ public class BendingSyncUtils {
                 } else
                     BendingSync.logger.info("No data for bender " + mcPlayer.getCachedUniqueIdString());
             }
-        }, 4, TimeUnit.SECONDS);
+        }, 5, TimeUnit.SECONDS);
 
         final ScheduledExecutorService exec2 = Executors.newScheduledThreadPool(1);
 
@@ -93,7 +93,7 @@ public class BendingSyncUtils {
                 } else
                     BendingSync.logger.info("No data for swordsman " + mcPlayer.getCachedUniqueIdString());
             }
-        }, 4, TimeUnit.SECONDS);
+        }, 5, TimeUnit.SECONDS);
     }
 
     /**
