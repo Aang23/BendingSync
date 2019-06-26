@@ -1,16 +1,12 @@
 package com.aang23.bendingsync.network;
 
 import com.aang23.bendingsync.BendingSync;
-import com.aang23.bendingsync.ConfigManager;
 import com.google.common.base.Charsets;
-
-import org.spongepowered.api.Sponge;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import redis.clients.jedis.Jedis;
 
 public class ServerSwitchPacket implements IMessage {
 

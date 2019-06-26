@@ -1,7 +1,7 @@
 package com.aang23.bendingsync.event;
 
 import com.aang23.bendingsync.utils.BendingSyncUtils;
-import com.crowsofwar.avatar.common.event.BendingEvent;
+import com.crowsofwar.avatar.common.event.AbilityUseEvent;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 public class ForgeEventHandler {
 
     @SubscribeEvent
-    public static void onBending(BendingEvent event) {
+    public static void onBending(AbilityUseEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {
             Player spongePlayer = (Player) event.getEntity();
 
