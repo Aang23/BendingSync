@@ -29,7 +29,7 @@ public class MysqlUtils {
             mysqlConnect.disconnect();
         }
 
-        sql = "CREATE TABLE IF NOT EXISTS metadata (swordsman_uuid VARCHAR(100), data VARCHAR(10000));";
+        sql = "CREATE TABLE IF NOT EXISTS metadata (option VARCHAR(100), value VARCHAR(10000));";
         try {
             PreparedStatement statement = mysqlConnect.connect().prepareStatement(sql);
             statement.execute();
