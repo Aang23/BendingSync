@@ -2,6 +2,9 @@ package com.aang23.bendingsync.mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import com.aang23.bendingsync.storage.BendingDataStorage;
+
 import java.sql.ResultSet;
 
 public class MysqlUtils {
@@ -41,6 +44,8 @@ public class MysqlUtils {
 
         if (!isMetatdataPresent("avatar_uuid"))
             setMetadataValue("avatar_uuid", "none");
+        if (!isMetatdataPresent("avatar_bending_data"))
+            setMetadataValue("avatar_bending_data", new BendingDataStorage().toJsonString());
     }
 
     public static void setMetadataValue(String option, String value) {

@@ -34,14 +34,17 @@ public class BendingSyncUtils {
 
         EntityPlayer mcPlayer = (EntityPlayer) player;
 
-        if (!MysqlUtils.doesBenderExists(mcPlayer.getCachedUniqueIdString()))
-            MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
-                    BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
-        else {
-            MysqlUtils.delBender(mcPlayer.getCachedUniqueIdString());
-            MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
-                    BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
-        }
+        if (!AvatarCycleUtils.isThisTheAvatar(player)) {
+            if (!MysqlUtils.doesBenderExists(mcPlayer.getCachedUniqueIdString()))
+                MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
+                        BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
+            else {
+                MysqlUtils.delBender(mcPlayer.getCachedUniqueIdString());
+                MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
+                        BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
+            }
+        } else
+            AvatarCycleUtils.saveAvatarData(player);
 
         if (!MysqlUtils.doesSwordsmanExists(mcPlayer.getCachedUniqueIdString()))
             MysqlUtils.addSwordsman(mcPlayer.getCachedUniqueIdString(),
@@ -71,9 +74,12 @@ public class BendingSyncUtils {
             public void run() {
                 // Sync AV2
                 if (MysqlUtils.doesBenderExists(mcPlayer.getCachedUniqueIdString())) {
-                    BendingDataStorage storage = new BendingDataStorage();
-                    storage.fromJsonString(MysqlUtils.getBendingData(mcPlayer.getCachedUniqueIdString()));
-                    BendingDataStorage.setDataDromBendingStorage(mcPlayer, storage);
+                    if (!AvatarCycleUtils.isThisTheAvatar(player)) {
+                        BendingDataStorage storage = new BendingDataStorage();
+                        storage.fromJsonString(MysqlUtils.getBendingData(mcPlayer.getCachedUniqueIdString()));
+                        BendingDataStorage.setDataDromBendingStorage(mcPlayer, storage);
+                    } else
+                        AvatarCycleUtils.restoreAvatarData(player);
                 } else
                     BendingSync.logger.info("No data for bender " + mcPlayer.getCachedUniqueIdString());
             }
