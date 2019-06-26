@@ -45,6 +45,7 @@ public class BendingSync {
 
     @Listener
     public void onForgePreInit(GameInitializationEvent event) {
+        ConfigManager.setupConfig();
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler.class);
         Sponge.getEventManager().registerListeners(this, new EventHandler());
         REDIS = new Jedis(ConfigManager.redis_address);
@@ -58,7 +59,6 @@ public class BendingSync {
     @Listener
     public void onServerStart(GameAboutToStartServerEvent event) {
         CommandRegistrar.registerCommands();
-        ConfigManager.setupConfig();
         MysqlUtils.setup();
     }
 
