@@ -24,7 +24,7 @@ public class EventHandler {
     public void onPlayerLogin(ClientConnectionEvent.Join event) {
         // Apply data on login
         if (event.getSource() instanceof Player) {
-            BendingSyncUtils.applyDataFromDatabaseToPlayer((Player) event.getSource());
+            BendingSyncUtils.applyDataFromDatabaseToPlayer((Player) event.getSource(), 5);
         }
     }
 

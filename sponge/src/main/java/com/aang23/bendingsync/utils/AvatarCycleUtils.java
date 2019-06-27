@@ -97,7 +97,7 @@ public class AvatarCycleUtils {
         Node avatarGroupPerm = BendingSync.LUCKPERMS_API.getNodeFactory().makeGroupNode(avatarGroup).build();
         BendingSync.LUCKPERMS_API.getUser(player.getUniqueId()).unsetPermission(avatarGroupPerm);
 
-        BendingSyncUtils.applyDataFromDatabaseToPlayer(player);
+        BendingSyncUtils.applyDataFromDatabaseToPlayer(player, 0);
 
         BendingSyncUtils.broadcastOnWholeServer("&3" + player.getName() + " is not the Avatar anymore...");
     }

@@ -62,7 +62,7 @@ public class BendingSyncUtils {
      * 
      * @param player
      */
-    public static void applyDataFromDatabaseToPlayer(Player player) {
+    public static void applyDataFromDatabaseToPlayer(Player player, int delay) {
         if (isDataOverriden(player))
             return;
 
@@ -83,7 +83,7 @@ public class BendingSyncUtils {
                 } else
                     BendingSync.logger.info("No data for bender " + mcPlayer.getCachedUniqueIdString());
             }
-        }, 5, TimeUnit.SECONDS);
+        }, delay, TimeUnit.SECONDS);
 
         final ScheduledExecutorService exec2 = Executors.newScheduledThreadPool(1);
 
@@ -99,7 +99,7 @@ public class BendingSyncUtils {
                 } else
                     BendingSync.logger.info("No data for swordsman " + mcPlayer.getCachedUniqueIdString());
             }
-        }, 5, TimeUnit.SECONDS);
+        }, delay, TimeUnit.SECONDS);
     }
 
     /**
@@ -127,7 +127,7 @@ public class BendingSyncUtils {
         } else {
             if (bending_overrides.contains(uuid)) {
                 bending_overrides.remove(uuid);
-                applyDataFromDatabaseToPlayer(player);
+                applyDataFromDatabaseToPlayer(player, 0);
             }
         }
     }
