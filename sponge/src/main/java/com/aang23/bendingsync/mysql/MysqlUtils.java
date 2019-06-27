@@ -71,7 +71,7 @@ public class MysqlUtils {
             PreparedStatement statement = mysqlConnect.connect().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             rs.next();
-            pass = rs.getString("data");
+            pass = rs.getString("value");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
