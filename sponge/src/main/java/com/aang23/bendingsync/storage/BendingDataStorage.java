@@ -60,7 +60,6 @@ public class BendingDataStorage implements IDataStorage<BendingDataStorage> {
         try {
             data = (JSONObject) new JSONParser().parse(in);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

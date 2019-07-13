@@ -47,6 +47,12 @@ public class MysqlHandler {
         return new CommonDataStorage(UUID.fromString(uuid), bending, dss, inventory);
     }
 
+    public static boolean doesPlayerExists(String uuid) {
+        return BendingSync.MYSQL.createQuery("SELECT * FROM players_data WHERE uuid=':uuid'")
+                .addParameter("uuid", uuid)
+                .executeAndFetch(String.class).size() > 0;
+    }
+
     private static String getContentForUuidOf(String uuid, String column) {
         // @formatter:off
         List<String> result = BendingSync.MYSQL.open().createQuery("SELECT :column FROM players_data WHERE bender_uuid=:uuid")

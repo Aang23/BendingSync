@@ -7,10 +7,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.aang23.bendingsync.BendingSync;
+import com.aang23.bendingsync.mysql.MysqlHandler;
 //import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
+import com.aang23.bendingsync.storage.CommonDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
+import com.aang23.bendingsync.storage.InventoryDataStorage;
 import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.entity.living.player.Player;
@@ -32,28 +35,13 @@ public class BendingSyncUtils {
         if (isDataOverriden(player))
             return;
 
-        EntityPlayer mcPlayer = (EntityPlayer) player;
+        BendingDataStorage bending = new BendingDataStorage().getFromPlayer(player);
+        DSSDataStorage dss = new DSSDataStorage().getFromPlayer(player);
+        InventoryDataStorage inventory = new InventoryDataStorage().getFromPlayer(player);
 
-        /*if (!AvatarCycleUtils.isThisTheAvatar(player)) {
-            if (!MysqlUtils.doesBenderExists(mcPlayer.getCachedUniqueIdString()))
-                MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
-                        BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
-            else {
-                MysqlUtils.delBender(mcPlayer.getCachedUniqueIdString());
-                MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
-                        BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
-            }
-        } else
-            AvatarCycleUtils.saveAvatarData(player);
+        CommonDataStorage common = new CommonDataStorage(player.getUniqueId(), bending, dss, inventory);
 
-        if (!MysqlUtils.doesSwordsmanExists(mcPlayer.getCachedUniqueIdString()))
-            MysqlUtils.addSwordsman(mcPlayer.getCachedUniqueIdString(),
-                    DSSDataStorage.getDataStorageFromPlayer(mcPlayer).toJsonString());
-        else {
-            MysqlUtils.delSwordsman(mcPlayer.getCachedUniqueIdString());
-            MysqlUtils.addSwordsman(mcPlayer.getCachedUniqueIdString(),
-                    DSSDataStorage.getDataStorageFromPlayer(mcPlayer).toJsonString());
-        }*/
+        MysqlHandler.saveStorage(common);
     }
 
     /**
@@ -69,37 +57,21 @@ public class BendingSyncUtils {
         EntityPlayer mcPlayer = (EntityPlayer) player;
         final ScheduledExecutorService exec1 = Executors.newScheduledThreadPool(1);
 
-        /*exec1.schedule(new Runnable() {
+        exec1.schedule(new Runnable() {
             @Override
             public void run() {
-                // Sync AV2
-                if (MysqlUtils.doesBenderExists(mcPlayer.getCachedUniqueIdString())) {
-                    if (!AvatarCycleUtils.isThisTheAvatar(player)) {
-                        BendingDataStorage storage = new BendingDataStorage();
-                        storage.fromJsonString(MysqlUtils.getBendingData(mcPlayer.getCachedUniqueIdString()));
-                        BendingDataStorage.setDataDromBendingStorage(mcPlayer, storage);
-                    } else
-                        AvatarCycleUtils.restoreAvatarData(player);
-                } else
-                    BendingSync.logger.info("No data for bender " + mcPlayer.getCachedUniqueIdString());
+                if (MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
+                    CommonDataStorage storage = MysqlHandler.getStorage(player.getUniqueId().toString());
+                    if (storage.getUuid() == player.getUniqueId()) {
+                        storage.getBendingStorage().restoreToPlayer(player);
+                        storage.getDssStorage().restoreToPlayer(player);
+                        storage.getInventoryStorage().restoreToPlayer(player);
+                    } else {
+                        BendingSync.logger.error("Tried to restore this player's data, but uuids doesn't match!");
+                    }
+                }
             }
         }, delay, TimeUnit.SECONDS);
-
-        final ScheduledExecutorService exec2 = Executors.newScheduledThreadPool(1);
-
-        exec2.schedule(new Runnable() {
-
-            @Override
-            public void run() {
-                // Sync DSS
-                if (MysqlUtils.doesSwordsmanExists(mcPlayer.getCachedUniqueIdString())) {
-                    DSSDataStorage dssStorage = new DSSDataStorage();
-                    dssStorage.fromJsonString(MysqlUtils.getDssData(mcPlayer.getCachedUniqueIdString()));
-                    DSSDataStorage.setDataFromDSSStorage(mcPlayer, dssStorage);
-                } else
-                    BendingSync.logger.info("No data for swordsman " + mcPlayer.getCachedUniqueIdString());
-            }
-        }, delay, TimeUnit.SECONDS);*/
     }
 
     /**

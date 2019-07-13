@@ -13,7 +13,6 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> {
     private Map<Integer, ItemStack> stacks = new HashMap<Integer, ItemStack>();
