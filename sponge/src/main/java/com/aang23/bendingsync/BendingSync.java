@@ -16,6 +16,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
+import org.sql2o.Sql2o;
 
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
@@ -35,6 +36,7 @@ public class BendingSync {
     public static GriefPreventionApi GRIEFPREVENTION_API;
     public static SimpleNetworkWrapper NETWORK;
     public static Jedis REDIS;
+    public static Sql2o MYSQL;
 
     @Inject
     public static Logger logger;
@@ -49,6 +51,10 @@ public class BendingSync {
         MinecraftForge.EVENT_BUS.register(ForgeEventHandler.class);
         Sponge.getEventManager().registerListeners(this, new EventHandler());
         REDIS = new Jedis(ConfigManager.redis_address);
+        MYSQL = new Sql2o("jdbc:mysql://" + ConfigManager.address + ":" + ConfigManager.port + "/"
+                + ConfigManager.database
+                + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                ConfigManager.username, ConfigManager.password);
         LUCKPERMS_API = LuckPerms.getApi();
         GRIEFPREVENTION_API = GriefPrevention.getApi();
         NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel("bendingsync");
@@ -63,7 +69,7 @@ public class BendingSync {
     }
 
     @Listener
-    public void onServerStop(GameStoppingEvent event){
+    public void onServerStop(GameStoppingEvent event) {
         REDIS.close();
     }
 }

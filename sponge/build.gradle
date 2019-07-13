@@ -47,6 +47,7 @@ dependencies {
 
     shade group: 'redis.clients', name: 'jedis', version: '3.1.0-m3'
     shade 'mysql:mysql-connector-java:8.0.12'
+    shade group: 'org.sql2o', name: 'sql2o', version: '1.6.0'
     shade group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 
     // TODO find a maven repo for those or use mine
