@@ -3,7 +3,8 @@ package com.aang23.bendingsync;
 import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
-import com.aang23.bendingsync.mysql.MysqlUtils;
+import com.aang23.bendingsync.mysql.MysqlHandler;
+//import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.network.ServerSwitchPacket;
 import com.google.inject.Inject;
@@ -65,7 +66,8 @@ public class BendingSync {
     @Listener
     public void onServerStart(GameAboutToStartServerEvent event) {
         CommandRegistrar.registerCommands();
-        MysqlUtils.setup();
+        //MysqlUtils.setup();
+        MysqlHandler.setupDatabase();
     }
 
     @Listener

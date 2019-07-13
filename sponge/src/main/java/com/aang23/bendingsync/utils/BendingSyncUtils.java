@@ -7,7 +7,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.aang23.bendingsync.BendingSync;
-import com.aang23.bendingsync.mysql.MysqlUtils;
+//import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
@@ -34,7 +34,7 @@ public class BendingSyncUtils {
 
         EntityPlayer mcPlayer = (EntityPlayer) player;
 
-        if (!AvatarCycleUtils.isThisTheAvatar(player)) {
+        /*if (!AvatarCycleUtils.isThisTheAvatar(player)) {
             if (!MysqlUtils.doesBenderExists(mcPlayer.getCachedUniqueIdString()))
                 MysqlUtils.addBender(mcPlayer.getCachedUniqueIdString(),
                         BendingDataStorage.getDataStorageFromBender(mcPlayer).toJsonString());
@@ -53,7 +53,7 @@ public class BendingSyncUtils {
             MysqlUtils.delSwordsman(mcPlayer.getCachedUniqueIdString());
             MysqlUtils.addSwordsman(mcPlayer.getCachedUniqueIdString(),
                     DSSDataStorage.getDataStorageFromPlayer(mcPlayer).toJsonString());
-        }
+        }*/
     }
 
     /**
@@ -69,7 +69,7 @@ public class BendingSyncUtils {
         EntityPlayer mcPlayer = (EntityPlayer) player;
         final ScheduledExecutorService exec1 = Executors.newScheduledThreadPool(1);
 
-        exec1.schedule(new Runnable() {
+        /*exec1.schedule(new Runnable() {
             @Override
             public void run() {
                 // Sync AV2
@@ -99,7 +99,7 @@ public class BendingSyncUtils {
                 } else
                     BendingSync.logger.info("No data for swordsman " + mcPlayer.getCachedUniqueIdString());
             }
-        }, delay, TimeUnit.SECONDS);
+        }, delay, TimeUnit.SECONDS);*/
     }
 
     /**

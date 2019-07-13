@@ -1,6 +1,6 @@
 package com.aang23.bendingsync.commands;
 
-import com.aang23.bendingsync.utils.AvatarCycleUtils;
+//import com.aang23.bendingsync.utils.AvatarCycleUtils;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -14,7 +14,7 @@ public class AvatarUnsetCommand implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Player spongePlayer = args.<Player>getOne("player").get();
 
-        AvatarCycleUtils.unsetTheAvatar(spongePlayer);
+        //AvatarCycleUtils.unsetTheAvatar(spongePlayer);
 
         return CommandResult.success();
     }

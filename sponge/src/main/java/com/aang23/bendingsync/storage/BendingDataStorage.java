@@ -20,7 +20,6 @@ import org.json.simple.parser.ParseException;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class BendingDataStorage {
-    public String userId;
     public List<String> bendings = new ArrayList<String>();
     public Map<String, String> xps = new HashMap<String, String>();
     public Map<String, String> levels = new HashMap<String, String>();
@@ -37,7 +36,6 @@ public class BendingDataStorage {
     public String toJsonString() {
         JSONObject data = new JSONObject();
 
-        data.put("uuid", userId);
         data.put("bendings", bendings);
         data.put("xps", xps);
         data.put("levels", levels);
@@ -50,7 +48,7 @@ public class BendingDataStorage {
     }
 
     /**
-     * Restorage this object's content from a JSON string
+     * Restore this object's content from a JSON string
      * 
      * @param in
      */
@@ -64,7 +62,6 @@ public class BendingDataStorage {
             e.printStackTrace();
         }
 
-        userId = (String) data.get("uuid");
         bendings = (List<String>) data.get("bendings");
         xps = (Map<String, String>) data.get("xps");
         levels = (Map<String, String>) data.get("levels");
@@ -84,8 +81,6 @@ public class BendingDataStorage {
         Bender bender = Bender.get(player);
 
         BendingDataStorage toreturn = new BendingDataStorage();
-
-        toreturn.userId = bender.getInfo().getId().toString();
 
         toreturn.chiAvailable = bender.getData().chi().getAvailableChi();
         toreturn.chiMax = bender.getData().chi().getMaxChi();
@@ -112,28 +107,25 @@ public class BendingDataStorage {
     public static void setDataDromBendingStorage(EntityPlayer player, BendingDataStorage storage) {
         Bender bender = Bender.get(player);
 
-        if (bender.getInfo().getId().toString().equals(storage.userId)) {
-            bender.getData().clearAbilityData();
-            bender.getData().clearBending();
+        bender.getData().clearAbilityData();
+        bender.getData().clearBending();
 
-            bender.getData().chi().setAvailableChi(storage.chiAvailable);
-            bender.getData().chi().setMaxChi(storage.chiMax);
-            bender.getData().chi().setTotalChi(storage.chiTotal);
+        bender.getData().chi().setAvailableChi(storage.chiAvailable);
+        bender.getData().chi().setMaxChi(storage.chiMax);
+        bender.getData().chi().setTotalChi(storage.chiTotal);
 
-            for (String bendingStyle : storage.bendings)
-                bender.getData().addBending(BendingStyles.get(bendingStyle));
+        for (String bendingStyle : storage.bendings)
+            bender.getData().addBending(BendingStyles.get(bendingStyle));
 
-            for (Entry<String, String> xp : storage.xps.entrySet())
-                bender.getData().getAbilityData(xp.getKey()).setXp(Float.parseFloat(xp.getValue()));
+        for (Entry<String, String> xp : storage.xps.entrySet())
+            bender.getData().getAbilityData(xp.getKey()).setXp(Float.parseFloat(xp.getValue()));
 
-            for (Entry<String, String> level : storage.levels.entrySet())
-                bender.getData().getAbilityData(level.getKey()).setLevel(Integer.parseInt(level.getValue()));
+        for (Entry<String, String> level : storage.levels.entrySet())
+            bender.getData().getAbilityData(level.getKey()).setLevel(Integer.parseInt(level.getValue()));
 
-            for (Entry<String, String> path : storage.paths.entrySet())
-                bender.getData().getAbilityData(path.getKey()).setPath(AbilityTreePath.valueOf(path.getValue()));
-        } else {
-            BendingSync.logger.error("Tried to restore BendingData from wrong UUID !");
-        }
+        for (Entry<String, String> path : storage.paths.entrySet())
+            bender.getData().getAbilityData(path.getKey()).setPath(AbilityTreePath.valueOf(path.getValue()));
+
         bender.getData().saveAll();
     }
 }

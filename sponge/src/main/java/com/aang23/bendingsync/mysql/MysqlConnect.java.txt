@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.ConfigManager;
 
 public class MysqlConnect {
@@ -32,6 +33,8 @@ public class MysqlConnect {
             properties.setProperty("password", PASSWORD);
             properties.setProperty("MaxPooledStatements", MAX_POOL);
         }
+        BendingSync.MYSQL.open().createQuery("SELECT data FROM benders WHERE uuid = :uuid").addParameter("uuid", "test").executeAndFetch(String.class);
+ 
         return properties;
     }
 

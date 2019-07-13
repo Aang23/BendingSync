@@ -13,7 +13,6 @@ import dynamicswordskills.skills.SkillBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DSSDataStorage {
-    public String userId;
     public Map<String, String> levels = new HashMap<String, String>();
 
     /**
@@ -24,7 +23,6 @@ public class DSSDataStorage {
     public String toJsonString() {
         JSONObject data = new JSONObject();
 
-        data.put("uuid", userId);
         data.put("levels", levels);
 
         return data.toJSONString();
@@ -45,7 +43,6 @@ public class DSSDataStorage {
             e.printStackTrace();
         }
 
-        userId = (String) data.get("uuid");
         levels = (Map<String, String>) data.get("levels");
     }
 
@@ -57,8 +54,6 @@ public class DSSDataStorage {
      */
     public static DSSDataStorage getDataStorageFromPlayer(EntityPlayer player) {
         DSSDataStorage toreturn = new DSSDataStorage();
-
-        toreturn.userId = player.getCachedUniqueIdString();
 
         DSSPlayerInfo dssInfos = DSSPlayerInfo.get(player);
 
