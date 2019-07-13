@@ -54,7 +54,7 @@ public class BendingDataStorage implements IDataStorage<BendingDataStorage> {
      * 
      * @param in
      */
-    public void fromJsonString(String in) {
+    public BendingDataStorage fromJsonString(String in) {
 
         JSONObject data = null;
         try {
@@ -71,6 +71,8 @@ public class BendingDataStorage implements IDataStorage<BendingDataStorage> {
         chiAvailable = ((Double) data.get("chiAvailable")).floatValue();
         chiMax = ((Double) data.get("chiMax")).floatValue();
         chiTotal = ((Double) data.get("chiTotal")).floatValue();
+
+        return this;
     }
 
     /**

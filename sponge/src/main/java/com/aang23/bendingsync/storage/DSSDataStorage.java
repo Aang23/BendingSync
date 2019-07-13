@@ -36,7 +36,7 @@ public class DSSDataStorage implements IDataStorage<DSSDataStorage> {
      * 
      * @param in
      */
-    public void fromJsonString(String in) {
+    public DSSDataStorage fromJsonString(String in) {
 
         JSONObject data = null;
         try {
@@ -47,6 +47,8 @@ public class DSSDataStorage implements IDataStorage<DSSDataStorage> {
         }
 
         levels = (Map<String, String>) data.get("levels");
+
+        return this;
     }
 
     /**

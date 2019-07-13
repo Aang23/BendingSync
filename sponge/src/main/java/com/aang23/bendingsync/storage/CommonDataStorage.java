@@ -2,31 +2,27 @@ package com.aang23.bendingsync.storage;
 
 import java.util.UUID;
 
-import com.aang23.bendingsync.utils.InventorySerializer;
-
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
-
-import net.minecraft.entity.player.EntityPlayer;
 
 public class CommonDataStorage {
     private final UUID uuid;
     private BendingDataStorage bendingStorage;
     private DSSDataStorage dssStorage;
-    private String inventoryContent;
+    private InventoryDataStorage inventoryStorage;
 
     public CommonDataStorage(Player player) {
         this.uuid = player.getUniqueId();
         bendingStorage = new BendingDataStorage().getFromPlayer(player);
         dssStorage = new DSSDataStorage().getFromPlayer(player);
-        inventoryContent = InventorySerializer.serializeInventorytoJson(player);
+        inventoryStorage = new InventoryDataStorage().getFromPlayer(player);
     }
 
-    public CommonDataStorage(UUID uuid, BendingDataStorage bendingData, DSSDataStorage dssData, String inventoryData) {
+    public CommonDataStorage(UUID uuid, BendingDataStorage bendingData, DSSDataStorage dssData,
+            InventoryDataStorage inventoryData) {
         this.uuid = uuid;
         bendingStorage = bendingData;
         dssStorage = dssData;
-        inventoryContent = inventoryData;
+        inventoryStorage = inventoryData;
     }
 
     public UUID getUuid() {
@@ -49,11 +45,11 @@ public class CommonDataStorage {
         this.dssStorage = dssStorage;
     }
 
-    public String getInventoryContent() {
-        return inventoryContent;
+    public InventoryDataStorage getInventoryStorage() {
+        return inventoryStorage;
     }
 
-    public void setInventoryContent(String inventoryContent) {
-        this.inventoryContent = inventoryContent;
+    public void setInventoryStorage(InventoryDataStorage inventoryStorage) {
+        this.inventoryStorage = inventoryStorage;
     }
 }

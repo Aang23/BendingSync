@@ -7,6 +7,7 @@ import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.CommonDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
+import com.aang23.bendingsync.storage.InventoryDataStorage;
 
 public class MysqlHandler {
     public static void setupDatabase() {
@@ -19,7 +20,7 @@ public class MysqlHandler {
         String uuid = commonStorage.getUuid().toString();
         String bending = commonStorage.getBendingStorage().toJsonString();
         String dss = commonStorage.getDssStorage().toJsonString();
-        String inv = commonStorage.getInventoryContent();
+        String inv = commonStorage.getInventoryStorage().toJsonString();
 
         // @formatter:off
         BendingSync.MYSQL.open()
@@ -37,11 +38,11 @@ public class MysqlHandler {
     public static CommonDataStorage getStorage(String uuid) {
         BendingDataStorage bending = new BendingDataStorage();
         DSSDataStorage dss = new DSSDataStorage();
-        String inventory = null;
+        InventoryDataStorage inventory = new InventoryDataStorage();
 
         bending.fromJsonString(getContentForUuidOf(uuid, "bending"));
         dss.fromJsonString(getContentForUuidOf(uuid, "dss"));
-        inventory = getContentForUuidOf(uuid, "inventory");
+        inventory.fromJsonString(getContentForUuidOf(uuid, "inventory"));
 
         return new CommonDataStorage(UUID.fromString(uuid), bending, dss, inventory);
     }

@@ -19,13 +19,12 @@ public class ResetCommand implements CommandExecutor {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Player spongePlayer = args.<Player>getOne("player").get();
-        EntityPlayer forgePlayer = (EntityPlayer) spongePlayer;
 
         BendingDataStorage bendingStorage = new BendingDataStorage();
         DSSDataStorage dssStorage = new DSSDataStorage();
 
-        BendingDataStorage.setDataDromBendingStorage(forgePlayer, bendingStorage);
-        DSSDataStorage.setDataFromDSSStorage(forgePlayer, dssStorage);
+        bendingStorage.restoreToPlayer(spongePlayer);
+        dssStorage.restoreToPlayer(spongePlayer);
 
         BendingSyncUtils.saveDataToDatabaseForPlayer(spongePlayer);
 
