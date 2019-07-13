@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.aang23.bendingsync.api.storage.IDataStorage;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.spongepowered.api.entity.living.player.Player;
 
 import dynamicswordskills.entity.DSSPlayerInfo;
 import dynamicswordskills.skills.SkillBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-public class DSSDataStorage {
+public class DSSDataStorage implements IDataStorage<DSSDataStorage> {
     public Map<String, String> levels = new HashMap<String, String>();
 
     /**
@@ -52,7 +55,9 @@ public class DSSDataStorage {
      * @param player
      * @return
      */
-    public static DSSDataStorage getDataStorageFromPlayer(EntityPlayer player) {
+    public DSSDataStorage getFromPlayer(Player spongePlayer) {
+        EntityPlayer player = (EntityPlayer) spongePlayer;
+
         DSSDataStorage toreturn = new DSSDataStorage();
 
         DSSPlayerInfo dssInfos = DSSPlayerInfo.get(player);
@@ -73,11 +78,13 @@ public class DSSDataStorage {
      * @param player
      * @param storage
      */
-    public static void setDataFromDSSStorage(EntityPlayer player, DSSDataStorage storage) {
+    public void restoreToPlayer(Player spongePlayer) {
+        EntityPlayer player = (EntityPlayer) spongePlayer;
+
         DSSPlayerInfo dssInfos = DSSPlayerInfo.get(player);
         dssInfos.resetSkills();
 
-        for (Entry<String, String> currentSkillEntry : storage.levels.entrySet()) {
+        for (Entry<String, String> currentSkillEntry : this.levels.entrySet()) {
             SkillBase currentSkill = SkillBase.getSkillByName(currentSkillEntry.getKey());
             int level = Integer.parseInt(currentSkillEntry.getValue());
             dssInfos.grantSkill(currentSkill);

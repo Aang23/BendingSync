@@ -17,8 +17,8 @@ public class CommonDataStorage {
 
     public CommonDataStorage(Player player) {
         this.uuid = player.getUniqueId();
-        bendingStorage = BendingDataStorage.getDataStorageFromBender((EntityPlayer) player);
-        dssStorage = DSSDataStorage.getDataStorageFromPlayer((EntityPlayer) player);
+        bendingStorage = new BendingDataStorage().getFromPlayer(player);
+        dssStorage = new DSSDataStorage().getFromPlayer(player);
         inventoryContent = InventorySerializer.serializeInventorytoJson(player);
     }
 

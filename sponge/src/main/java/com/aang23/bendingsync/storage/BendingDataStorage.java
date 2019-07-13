@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.aang23.bendingsync.BendingSync;
+import com.aang23.bendingsync.api.storage.IDataStorage;
 import com.crowsofwar.avatar.common.bending.BendingStyle;
 import com.crowsofwar.avatar.common.bending.BendingStyles;
 import com.crowsofwar.avatar.common.data.AbilityData;
@@ -16,10 +17,11 @@ import com.crowsofwar.avatar.common.data.AbilityData.AbilityTreePath;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.spongepowered.api.entity.living.player.Player;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public class BendingDataStorage {
+public class BendingDataStorage implements IDataStorage<BendingDataStorage> {
     public List<String> bendings = new ArrayList<String>();
     public Map<String, String> xps = new HashMap<String, String>();
     public Map<String, String> levels = new HashMap<String, String>();
@@ -77,7 +79,9 @@ public class BendingDataStorage {
      * @param player
      * @return
      */
-    public static BendingDataStorage getDataStorageFromBender(EntityPlayer player) {
+    public BendingDataStorage getFromPlayer(Player spongePlayer) {
+        EntityPlayer player = (EntityPlayer) spongePlayer;
+
         Bender bender = Bender.get(player);
 
         BendingDataStorage toreturn = new BendingDataStorage();
@@ -104,26 +108,28 @@ public class BendingDataStorage {
      * @param player
      * @param storage
      */
-    public static void setDataDromBendingStorage(EntityPlayer player, BendingDataStorage storage) {
+    public void restoreToPlayer(Player spongePlayer) {
+        EntityPlayer player = (EntityPlayer) spongePlayer;
+
         Bender bender = Bender.get(player);
 
         bender.getData().clearAbilityData();
         bender.getData().clearBending();
 
-        bender.getData().chi().setAvailableChi(storage.chiAvailable);
-        bender.getData().chi().setMaxChi(storage.chiMax);
-        bender.getData().chi().setTotalChi(storage.chiTotal);
+        bender.getData().chi().setAvailableChi(this.chiAvailable);
+        bender.getData().chi().setMaxChi(this.chiMax);
+        bender.getData().chi().setTotalChi(this.chiTotal);
 
-        for (String bendingStyle : storage.bendings)
+        for (String bendingStyle : this.bendings)
             bender.getData().addBending(BendingStyles.get(bendingStyle));
 
-        for (Entry<String, String> xp : storage.xps.entrySet())
+        for (Entry<String, String> xp : this.xps.entrySet())
             bender.getData().getAbilityData(xp.getKey()).setXp(Float.parseFloat(xp.getValue()));
 
-        for (Entry<String, String> level : storage.levels.entrySet())
+        for (Entry<String, String> level : this.levels.entrySet())
             bender.getData().getAbilityData(level.getKey()).setLevel(Integer.parseInt(level.getValue()));
 
-        for (Entry<String, String> path : storage.paths.entrySet())
+        for (Entry<String, String> path : this.paths.entrySet())
             bender.getData().getAbilityData(path.getKey()).setPath(AbilityTreePath.valueOf(path.getValue()));
 
         bender.getData().saveAll();
