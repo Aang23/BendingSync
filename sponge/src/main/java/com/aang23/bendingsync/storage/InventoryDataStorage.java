@@ -27,7 +27,10 @@ public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> 
 
         for (int i = 0; i < data.size(); i++) {
             String nbt = (String) data.get(i);
-            ItemStack currentStack = ItemStackSerializer.deserializeFromString(nbt);
+            ItemStack currentStack = null;
+            if (!nbt.equals("null")) {
+                currentStack = ItemStackSerializer.deserializeFromString(nbt);
+            }
             stacks.put(i, currentStack);
         }
 
@@ -57,7 +60,10 @@ public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> 
         JSONObject toReturn = new JSONObject();
         for (int i = 0; i < stacks.size(); i++) {
             ItemStack currentStack = stacks.get(i);
-            String data = ItemStackSerializer.serializeToString(currentStack);
+            String data = "null";
+            if (currentStack != null) {
+                ItemStackSerializer.serializeToString(currentStack);
+            }
             toReturn.put(i, data);
         }
         return toReturn.toJSONString();
