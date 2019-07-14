@@ -12,7 +12,7 @@ import com.aang23.bendingsync.storage.InventoryDataStorage;
 public class MysqlHandler {
     public static void setupDatabase() {
         BendingSync.MYSQL.open().createQuery(
-                "CREATE TABLE IF NOT EXISTS players_data (uuid VARCHAR(100), bending VARCHAR(10000)), dss VARCHAR(10000)), inventory VARCHAR(10000))")
+                "CREATE TABLE IF NOT EXISTS players_data (uuid VARCHAR(100), bending VARCHAR(10000)), dss VARCHAR(10000)), inventory VARCHAR(10000));")
                 .executeUpdate();
     }
 
@@ -26,7 +26,7 @@ public class MysqlHandler {
         BendingSync.MYSQL.open()
                 .createQuery("INSERT INTO players_data (uuid, bending, dss, inventory) "
                         + "VALUES (:uuid, :bending, :dss, :inventory)  " 
-                        + "ON DUPLICATE KEY UPDATE uuid=:uuid, bending=:bending, dss=:dss, inventory=:inventory")
+                        + "ON DUPLICATE KEY UPDATE uuid=:uuid, bending=:bending, dss=:dss, inventory=:inventory;")
                 .addParameter("uuid", uuid)
                 .addParameter("bending", bending)
                 .addParameter("dss", dss)
@@ -48,14 +48,14 @@ public class MysqlHandler {
     }
 
     public static boolean doesPlayerExists(String uuid) {
-        return BendingSync.MYSQL.createQuery("SELECT * FROM players_data WHERE uuid=':uuid'")
+        return BendingSync.MYSQL.createQuery("SELECT * FROM players_data WHERE uuid=':uuid';")
                 .addParameter("uuid", uuid)
                 .executeAndFetch(String.class).size() > 0;
     }
 
     private static String getContentForUuidOf(String uuid, String column) {
         // @formatter:off
-        List<String> result = BendingSync.MYSQL.open().createQuery("SELECT :column FROM players_data WHERE bender_uuid=:uuid")
+        List<String> result = BendingSync.MYSQL.open().createQuery("SELECT :column FROM players_data WHERE bender_uuid=:uuid;")
                                 .addParameter("column", column)
                                 .addParameter("uuid", uuid)
                                 .executeAndFetch(String.class);
