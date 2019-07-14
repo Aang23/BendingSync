@@ -12,7 +12,7 @@ import com.aang23.bendingsync.storage.InventoryDataStorage;
 public class MysqlHandler {
     public static void setupDatabase() {
         BendingSync.MYSQL.open().createQuery(
-                "CREATE TABLE IF NOT EXISTS players_data (uuid VARCHAR(100), bending VARCHAR(10000), dss VARCHAR(10000), inventory VARCHAR(10000))")
+                "CREATE TABLE IF NOT EXISTS players_data (uuid VARCHAR(100), bending TEXT(10000), dss TEXT(10000), inventory TEXT(10000))")
                 .executeUpdate();
     }
 
