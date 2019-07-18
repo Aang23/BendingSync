@@ -10,6 +10,7 @@ archivesBaseName = "bendingsync-velocity"
 
 repositories {
     mavenCentral()
+    jcenter()
     maven {
         name = 'velocity'
         url = 'https://repo.velocitypowered.com/snapshots/'
@@ -25,6 +26,10 @@ dependencies {
     compileOnly 'com.velocitypowered:velocity-api:1.0.2-SNAPSHOT'
 
     shade group: 'redis.clients', name: 'jedis', version: '3.1.0-m3'
+
+    shade ('net.dv8tion:JDA:4.BETA.0_24') {
+        exclude module: 'opus-java'
+    }
 }
 
 jar {
