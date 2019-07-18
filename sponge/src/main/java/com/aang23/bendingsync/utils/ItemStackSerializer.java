@@ -1,5 +1,9 @@
 package com.aang23.bendingsync.utils;
 
+import org.json.simple.JSONObject;
+import org.spongepowered.api.data.persistence.DataFormats;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTException;
@@ -13,7 +17,7 @@ public class ItemStackSerializer {
      * @return
      */
     public static String serializeToString(ItemStack stack) {
-        return stack.getTagCompound().toString();
+        return stack.serializeNBT().toString();
     }
 
     /**

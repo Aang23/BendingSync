@@ -60,9 +60,10 @@ public class BendingSyncUtils {
         exec1.schedule(new Runnable() {
             @Override
             public void run() {
-                if (MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
+                if (true || MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
+                    System.out.println("Restoring!");
                     CommonDataStorage storage = MysqlHandler.getStorage(player.getUniqueId().toString());
-                    if (storage.getUuid() == player.getUniqueId()) {
+                    if (true || storage.getUuid() == player.getUniqueId()) {
                         storage.getBendingStorage().restoreToPlayer(player);
                         storage.getDssStorage().restoreToPlayer(player);
                         storage.getInventoryStorage().restoreToPlayer(player);
