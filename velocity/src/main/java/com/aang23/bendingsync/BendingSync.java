@@ -26,6 +26,8 @@ import org.slf4j.Logger;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "A plugin", authors = { "Aang23" })
@@ -35,7 +37,8 @@ public class BendingSync {
     public static JDA jda;
 
     @Inject
-    public BendingSync(ProxyServer lserver, CommandManager commandManager, EventManager eventManager, Logger llogger, @DataDirectory Path config_path) {
+    public BendingSync(ProxyServer lserver, CommandManager commandManager, EventManager eventManager, Logger llogger,
+            @DataDirectory Path config_path) {
 
         ConfigManager.setupConfig(config_path);
 
@@ -43,11 +46,11 @@ public class BendingSync {
         logger = llogger;
 
         try {
-            jda = new JDABuilder(ConfigManager.discord_token).build();
+            jda = new JDABuilder(ConfigManager.discord_token).addEventListeners(new DiscordListener()).build();
         } catch (LoginException e) {
             e.printStackTrace();
         }
-        
+
         logger.info("Loading BendingSync");
 
         setupRedisSubscriber();
@@ -91,8 +94,7 @@ public class BendingSync {
                         RegisteredServer info = server.getServer(args[2]).get();
                         player.createConnectionRequest(info).fireAndForget();
                     }
-                }
-                if (args[0].equals("BroadCast")) {
+                } else if (args[0].equals("BroadCast")) {
                     server.broadcast(LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&'));
                     server.getConsoleCommandSource()
                             .sendMessage(LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&'));
@@ -111,5 +113,14 @@ public class BendingSync {
                 }
             }
         }).start();
+    }
+
+    public class DiscordListener extends ListenerAdapter {
+        @Override
+        public void onMessageReceived(MessageReceivedEvent event) {
+            if (event.getAuthor().isBot())
+                return;
+            // Handle commands & co here
+        }
     }
 }
