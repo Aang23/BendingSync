@@ -1,6 +1,7 @@
 package com.aang23.bendingsync;
 
 import java.nio.file.Path;
+import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
 
@@ -26,8 +27,12 @@ import org.slf4j.Logger;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.kyori.text.TextComponent;
 import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "A plugin", authors = { "Aang23" })
@@ -95,9 +100,10 @@ public class BendingSync {
                         player.createConnectionRequest(info).fireAndForget();
                     }
                 } else if (args[0].equals("BroadCast")) {
-                    server.broadcast(LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&'));
-                    server.getConsoleCommandSource()
-                            .sendMessage(LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&'));
+                    TextComponent text = LegacyComponentSerializer.INSTANCE.deserialize(args[1], '&');
+                    server.broadcast(text);
+                    server.getConsoleCommandSource().sendMessage(text);
+                    jda.getTextChannelById(ConfigManager.channelid).sendMessage(text.toString());
                 }
             }
         };
@@ -121,6 +127,37 @@ public class BendingSync {
             if (event.getAuthor().isBot())
                 return;
             // Handle commands & co here
+            if (event.getChannelType() == ChannelType.TEXT
+                    && event.getChannel().getId().equals(ConfigManager.channelid)) {
+                String message[] = event.getMessage().getContentDisplay().split(" ");
+
+                if (!message[0].substring(0, 1).equals("!"))
+                    return;
+
+                if (message[0].equals("!online") && message.length > 1) {
+                    boolean isOnline = server.getPlayer(message[1]).isPresent();
+                    event.getChannel()
+                            .sendMessage("Player **" + message[1] + "** is " + (isOnline ? "online" : "offline") + ".")
+                            .queue();
+                } else if (message[0].equals("!playerlist")) {
+                    Collection<Player> players = server.getAllPlayers();
+                    if (players.size() > 0) {
+                        String list = "";
+                        for (Player player : players)
+                            list += player.getUsername() + "\n";
+                        event.getChannel().sendMessage("Online players : \n" + list).queue();
+                    } else {
+                        event.getChannel().sendMessage("No one is online...").queue();
+                    }
+                } else if (message[0].equals("!help")) {
+                    event.getChannel().sendMessage(
+                            "Commands : \n!online <player> : See if a specified player is online\n!playerlist : List online players")
+                            .queue();
+                } else {
+                    event.getChannel()
+                            .sendMessage(event.getAuthor().getAsMention() + ", your syntax is probably wrong. Do `!help` to check.").queue();
+                }
+            }
         }
     }
 }
