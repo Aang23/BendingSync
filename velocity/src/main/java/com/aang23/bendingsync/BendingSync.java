@@ -10,6 +10,7 @@ import com.aang23.bendingsync.discord.commands.CommandIp;
 import com.aang23.bendingsync.discord.commands.CommandOnline;
 import com.aang23.bendingsync.discord.commands.CommandPlayerCount;
 import com.aang23.bendingsync.discord.commands.CommandPlayerList;
+import com.aang23.bendingsync.discord.commands.CommandServerList;
 import com.aang23.bendingsync.discord.commands.CommandWhereIs;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
@@ -66,6 +67,7 @@ public class BendingSync {
         DiscordCommands.registerCommand(new CommandPlayerCount());
         DiscordCommands.registerCommand(new CommandWhereIs());
         DiscordCommands.registerCommand(new CommandChat());
+        DiscordCommands.registerCommand(new CommandServerList());
     }
 
     @Subscribe
