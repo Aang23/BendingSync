@@ -5,8 +5,11 @@ import java.nio.file.Path;
 import javax.security.auth.login.LoginException;
 
 import com.aang23.bendingsync.discord.DiscordCommands;
+import com.aang23.bendingsync.discord.commands.CommandIp;
 import com.aang23.bendingsync.discord.commands.CommandOnline;
+import com.aang23.bendingsync.discord.commands.CommandPlayerCount;
 import com.aang23.bendingsync.discord.commands.CommandPlayerList;
+import com.aang23.bendingsync.discord.commands.CommandWhereIs;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
@@ -57,6 +60,9 @@ public class BendingSync {
 
         DiscordCommands.registerCommand(new CommandOnline());
         DiscordCommands.registerCommand(new CommandPlayerList());
+        DiscordCommands.registerCommand(new CommandIp());
+        DiscordCommands.registerCommand(new CommandPlayerCount());
+        DiscordCommands.registerCommand(new CommandWhereIs());
     }
 
     @Subscribe

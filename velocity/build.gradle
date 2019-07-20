@@ -25,6 +25,7 @@ configurations {
 dependencies {
     compileOnly 'com.velocitypowered:velocity-api:1.0.2-SNAPSHOT'
 
+    compile 'me.lucko.luckperms:luckperms-api:4.3'
     shade group: 'redis.clients', name: 'jedis', version: '3.1.0-m3'
     shade group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 
