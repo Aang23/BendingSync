@@ -31,10 +31,14 @@ public class CommandChat implements DiscordCommand {
     @Override
     public void executeCommand(String[] args, MessageChannel channel, User user) {
         String server_name = args[1];
-        String message = "";
-        for(int i = 2; i < args.length; i++)
-            message += args[i];
-        //TODO send through redis
+        if (BendingSync.server.getServer(server_name).isPresent()) {
+            String message = "";
+            for (int i = 2; i < args.length; i++)
+                message += args[i];
+            BendingSync.REDIS.publish("bendingsync", "ChatOnServer:" + server_name + ":" + message);
+        } else {
+            channel.sendMessage("This server does not exist!").queue();
+        }
     }
 
 }

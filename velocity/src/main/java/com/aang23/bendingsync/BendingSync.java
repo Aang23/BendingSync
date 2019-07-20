@@ -39,7 +39,7 @@ public class BendingSync {
     public static ProxyServer server;
     public static Logger logger;
     public static JDA jda;
-    public static Jedis JEDIS;
+    public static Jedis REDIS;
 
     @Inject
     public BendingSync(ProxyServer lserver, CommandManager commandManager, EventManager eventManager, Logger llogger,
@@ -119,7 +119,7 @@ public class BendingSync {
             public void run() {
                 try {
                     Jedis jedis = new Jedis("192.168.1.16");
-                    JEDIS = jedis;
+                    REDIS = jedis;
                     jedis.subscribe(subscriber, "bendingsync");
                     jedis.quit();
                     logger.error("Redis disconnected !");
