@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import javax.security.auth.login.LoginException;
 
 import com.aang23.bendingsync.discord.DiscordCommands;
+import com.aang23.bendingsync.discord.commands.CommandChat;
 import com.aang23.bendingsync.discord.commands.CommandIp;
 import com.aang23.bendingsync.discord.commands.CommandOnline;
 import com.aang23.bendingsync.discord.commands.CommandPlayerCount;
@@ -38,6 +39,7 @@ public class BendingSync {
     public static ProxyServer server;
     public static Logger logger;
     public static JDA jda;
+    public static Jedis JEDIS;
 
     @Inject
     public BendingSync(ProxyServer lserver, CommandManager commandManager, EventManager eventManager, Logger llogger,
@@ -63,6 +65,7 @@ public class BendingSync {
         DiscordCommands.registerCommand(new CommandIp());
         DiscordCommands.registerCommand(new CommandPlayerCount());
         DiscordCommands.registerCommand(new CommandWhereIs());
+        DiscordCommands.registerCommand(new CommandChat());
     }
 
     @Subscribe
@@ -116,6 +119,7 @@ public class BendingSync {
             public void run() {
                 try {
                     Jedis jedis = new Jedis("192.168.1.16");
+                    JEDIS = jedis;
                     jedis.subscribe(subscriber, "bendingsync");
                     jedis.quit();
                     logger.error("Redis disconnected !");
