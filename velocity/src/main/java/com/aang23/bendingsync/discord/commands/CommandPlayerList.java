@@ -16,7 +16,7 @@ public class CommandPlayerList implements DiscordCommand {
 
     @Override
     public String getCommandSyntax() {
-        return "!playerlist";
+        return "&playerlist";
     }
 
     @Override

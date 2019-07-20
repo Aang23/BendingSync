@@ -1,42 +1,34 @@
 package com.aang23.bendingsync;
 
 import java.nio.file.Path;
-import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
 
 import com.aang23.bendingsync.discord.DiscordCommands;
 import com.aang23.bendingsync.discord.commands.CommandOnline;
 import com.aang23.bendingsync.discord.commands.CommandPlayerList;
-import com.google.common.io.ByteArrayDataInput;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.ServerConnection;
-import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPubSub;
 
 import org.slf4j.Logger;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.ChannelType;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.kyori.text.TextComponent;
 import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
 
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "A plugin", authors = { "Aang23" })
 public class BendingSync {
@@ -121,6 +113,7 @@ public class BendingSync {
                     jedis.subscribe(subscriber, "bendingsync");
                     jedis.quit();
                     logger.error("Redis disconnected !");
+                    jedis.close();
                 } catch (Exception e) {
                 }
             }

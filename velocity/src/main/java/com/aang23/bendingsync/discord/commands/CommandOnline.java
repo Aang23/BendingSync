@@ -15,7 +15,7 @@ public class CommandOnline implements DiscordCommand {
 
     @Override
     public String getCommandSyntax() {
-        return "!online <player>";
+        return "&online <player>";
     }
 
     @Override
