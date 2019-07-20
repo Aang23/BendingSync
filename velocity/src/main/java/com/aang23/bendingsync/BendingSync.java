@@ -5,6 +5,9 @@ import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
 
+import com.aang23.bendingsync.discord.DiscordCommands;
+import com.aang23.bendingsync.discord.commands.CommandOnline;
+import com.aang23.bendingsync.discord.commands.CommandPlayerList;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
@@ -59,6 +62,9 @@ public class BendingSync {
         logger.info("Loading BendingSync");
 
         setupRedisSubscriber();
+
+        DiscordCommands.registerCommand(new CommandOnline());
+        DiscordCommands.registerCommand(new CommandPlayerList());
     }
 
     @Subscribe
@@ -129,34 +135,7 @@ public class BendingSync {
             // Handle commands & co here
             if (event.getChannelType() == ChannelType.TEXT
                     && event.getChannel().getId().equals(ConfigManager.channelid)) {
-                String message[] = event.getMessage().getContentDisplay().split(" ");
-
-                if (!message[0].substring(0, 1).equals("!"))
-                    return;
-
-                if (message[0].equals("!online") && message.length > 1) {
-                    boolean isOnline = server.getPlayer(message[1]).isPresent();
-                    event.getChannel()
-                            .sendMessage("Player **" + message[1] + "** is " + (isOnline ? "online" : "offline") + ".")
-                            .queue();
-                } else if (message[0].equals("!playerlist")) {
-                    Collection<Player> players = server.getAllPlayers();
-                    if (players.size() > 0) {
-                        String list = "";
-                        for (Player player : players)
-                            list += player.getUsername() + "\n";
-                        event.getChannel().sendMessage("Online players : \n" + list).queue();
-                    } else {
-                        event.getChannel().sendMessage("No one is online...").queue();
-                    }
-                } else if (message[0].equals("!help")) {
-                    event.getChannel().sendMessage(
-                            "Commands : \n!online <player> : See if a specified player is online\n!playerlist : List online players")
-                            .queue();
-                } else {
-                    event.getChannel()
-                            .sendMessage(event.getAuthor().getAsMention() + ", your syntax is probably wrong. Do `!help` to check.").queue();
-                }
+                DiscordCommands.runCommand(event);
             }
         }
     }
