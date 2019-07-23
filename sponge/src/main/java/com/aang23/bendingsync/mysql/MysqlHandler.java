@@ -79,7 +79,6 @@ public class MysqlHandler {
         } finally {
             disconnectStandard();
         }
-        System.out.println(result.toString());
         return result;
     }
 
