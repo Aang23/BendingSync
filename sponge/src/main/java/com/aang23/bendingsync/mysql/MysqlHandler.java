@@ -68,7 +68,7 @@ public class MysqlHandler {
 
     private static String getContentForUuidOf(String uuid, String column) {
         String result = null;
-        String sql = "SELECT " + column + " FROM players_data WHERE bender_uuid='" + uuid + "';";
+        String sql = "SELECT " + column + " FROM players_data WHERE uuid='" + uuid + "';";
         try {
             PreparedStatement statement = connectStandard().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
