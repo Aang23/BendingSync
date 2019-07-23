@@ -1,22 +1,15 @@
 package com.aang23.bendingsync.storage;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import com.aang23.bendingsync.api.storage.IDataStorage;
 import com.aang23.bendingsync.utils.ItemStackSerializer;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 
 public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> {
     private JSONObject stacks = new JSONObject();
@@ -27,7 +20,6 @@ public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> 
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return this;
     }
 
@@ -38,7 +30,7 @@ public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> 
             ItemStack currentStack = forgePlayer.inventory.getStackInSlot(i);
             if (!currentStack.isEmpty()) {
                 String serialized = ItemStackSerializer.serializeToString(currentStack);
-                //System.out.println(currentStack.toString() + " = " + serialized);
+                // System.out.println(currentStack.toString() + " = " + serialized);
                 stacks.put(i, serialized);
             }
         }
@@ -47,9 +39,15 @@ public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> 
 
     public void restoreToPlayer(Player player) {
         EntityPlayer forgePlayer = (EntityPlayer) player;
-        for (Entry<Integer, String> entry : ((Map<Integer, String>) stacks).entrySet()) {
-            ItemStack currentStack = ItemStackSerializer.deserializeFromString(entry.getValue());
-            forgePlayer.inventory.setInventorySlotContents(entry.getKey(), currentStack);
+        int inventory_size = forgePlayer.inventory.getSizeInventory();
+        for (int i = 0; i < inventory_size; i++) {
+            String item = (String) stacks.get(String.valueOf(i));
+            if (item == null) {
+                forgePlayer.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+            } else {
+                ItemStack currentStack = ItemStackSerializer.deserializeFromString(item);
+                forgePlayer.inventory.setInventorySlotContents(i, currentStack);
+            }
         }
     }
 

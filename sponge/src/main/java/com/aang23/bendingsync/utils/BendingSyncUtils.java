@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.mysql.MysqlHandler;
-//import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.CommonDataStorage;
@@ -60,10 +59,10 @@ public class BendingSyncUtils {
         exec1.schedule(new Runnable() {
             @Override
             public void run() {
-                if (true || MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
+                if (MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
                     System.out.println("Restoring!");
                     CommonDataStorage storage = MysqlHandler.getStorage(player.getUniqueId().toString());
-                    if (true || storage.getUuid() == player.getUniqueId()) {
+                    if (storage.getUuid() == player.getUniqueId()) {
                         storage.getBendingStorage().restoreToPlayer(player);
                         storage.getDssStorage().restoreToPlayer(player);
                         storage.getInventoryStorage().restoreToPlayer(player);
