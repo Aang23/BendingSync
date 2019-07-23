@@ -120,7 +120,7 @@ public class BendingSync {
             @Override
             public void run() {
                 try {
-                    Jedis jedis = new Jedis("192.168.1.16");
+                    Jedis jedis = new Jedis(ConfigManager.redis_address);
                     REDIS = jedis;
                     jedis.subscribe(subscriber, "bendingsync");
                     jedis.quit();
