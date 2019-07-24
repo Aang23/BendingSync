@@ -12,17 +12,21 @@ import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.CommonDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
+import com.aang23.bendingsync.storage.EffectsDataStorage;
 import com.aang23.bendingsync.storage.InventoryDataStorage;
 import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.entity.living.player.Player;
 
+import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 
 public class BendingSyncUtils {
     private static List<String> bending_overrides = new ArrayList<String>();
+    public static List<String> toBeSynced = new ArrayList<String>();
 
     /**
      * Save everything that can be to the database for this player (Will do nothing
@@ -31,14 +35,15 @@ public class BendingSyncUtils {
      * @param player
      */
     public static void saveDataToDatabaseForPlayer(Player player) {
-        if (isDataOverriden(player))
+        if (isDataOverriden(player) || isToBeSynced(player))
             return;
 
         BendingDataStorage bending = new BendingDataStorage().getFromPlayer(player);
         DSSDataStorage dss = new DSSDataStorage().getFromPlayer(player);
         InventoryDataStorage inventory = new InventoryDataStorage().getFromPlayer(player);
+        EffectsDataStorage effects = new EffectsDataStorage().getFromPlayer(player);
 
-        CommonDataStorage common = new CommonDataStorage(player.getUniqueId(), bending, dss, inventory);
+        CommonDataStorage common = new CommonDataStorage(player.getUniqueId(), bending, dss, inventory, effects);
 
         MysqlHandler.saveStorage(common);
     }
@@ -55,21 +60,29 @@ public class BendingSyncUtils {
 
         EntityPlayer mcPlayer = (EntityPlayer) player;
         final ScheduledExecutorService exec1 = Executors.newScheduledThreadPool(1);
+        String uuid = player.getUniqueId().toString();
 
         exec1.schedule(new Runnable() {
             @Override
             public void run() {
-                if (MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
-                    System.out.println("Restoring!");
-                    CommonDataStorage storage = MysqlHandler.getStorage(player.getUniqueId().toString());
-                    if (storage.getUuid() == player.getUniqueId()) {
-                        storage.getBendingStorage().restoreToPlayer(player);
-                        storage.getDssStorage().restoreToPlayer(player);
-                        storage.getInventoryStorage().restoreToPlayer(player);
-                    } else {
-                        BendingSync.logger.error("Tried to restore this player's data, but uuids doesn't match!");
+                // Run on the main server thread to prevent glitches
+                ((EntityPlayerMP) mcPlayer).getServerWorld().addScheduledTask(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (MysqlHandler.doesPlayerExists(uuid)) {
+                            System.out.println("Restoring!");
+                            CommonDataStorage storage = MysqlHandler.getStorage(uuid);
+                            storage.getBendingStorage().restoreToPlayer(player);
+                            storage.getDssStorage().restoreToPlayer(player);
+                            storage.getInventoryStorage().restoreToPlayer(player);
+                            storage.getEffectsStorage().restoreToPlayer(player);
+                            if (isToBeSynced(player)) {
+                                toBeSynced.remove(uuid);
+                                NucleusAPI.getFreezePlayerService().get().setFrozen(player, false);
+                            }
+                        }
                     }
-                }
+                });
             }
         }, delay, TimeUnit.SECONDS);
     }
@@ -116,6 +129,17 @@ public class BendingSyncUtils {
     }
 
     /**
+     * Get if a player wasn't synced yet
+     * 
+     * @param player
+     * @return
+     */
+    public static boolean isToBeSynced(Player player) {
+        String uuid = player.getUniqueId().toString();
+        return toBeSynced.contains(uuid);
+    }
+
+    /**
      * Send the Neat info packet to tracking entity for a specified player.
      * 
      * @param player
@@ -139,5 +163,15 @@ public class BendingSyncUtils {
      */
     public static void broadcastOnWholeServer(String message) {
         BendingSync.REDIS.publish("bendingsync", "BroadCast:" + message);
+    }
+
+    /**
+     * Sets a player as to be synced.
+     * 
+     * @param player
+     */
+    public static void setToBeSynced(Player player) {
+        String uuid = player.getUniqueId().toString();
+        toBeSynced.add(uuid);
     }
 }

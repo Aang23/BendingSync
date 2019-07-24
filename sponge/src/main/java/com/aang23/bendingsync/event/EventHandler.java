@@ -9,6 +9,7 @@ import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.world.SaveWorldEvent;
 
+import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import me.ryanhamshire.griefprevention.api.event.BorderClaimEvent;
 
 public class EventHandler {
@@ -25,6 +26,8 @@ public class EventHandler {
         // Apply data on login
         if (event.getSource() instanceof Player) {
             BendingSyncUtils.applyDataFromDatabaseToPlayer((Player) event.getSource(), 5);
+            BendingSyncUtils.setToBeSynced((Player) event.getSource());
+            NucleusAPI.getFreezePlayerService().get().setFrozen((Player) event.getSource(), true);
         }
     }
 
