@@ -53,7 +53,7 @@ public class BendingSync {
         NETWORK.registerMessage(ServerSwitchPacket.Handler.class, ServerSwitchPacket.class, 2, Side.SERVER);
     }
 
-    private KeyBinding stats = new KeyBinding("GUI test", Keyboard.KEY_U, "BendingSync");
+    private KeyBinding stats = new KeyBinding("Server Switch GUI", Keyboard.KEY_U, "BendingSync");
 
     /**
      * Listen for keypresses
