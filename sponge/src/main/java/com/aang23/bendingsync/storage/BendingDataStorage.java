@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.api.storage.IDataStorage;
 import com.crowsofwar.avatar.common.bending.BendingStyle;
 import com.crowsofwar.avatar.common.bending.BendingStyles;
 import com.crowsofwar.avatar.common.data.AbilityData;
-import com.crowsofwar.avatar.common.data.Bender;
 import com.crowsofwar.avatar.common.data.AbilityData.AbilityTreePath;
+import com.crowsofwar.avatar.common.data.Bender;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,6 +20,11 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import net.minecraft.entity.player.EntityPlayer;
 
+/**
+ * Storage class for AV2 related things
+ * 
+ * @author Aang23
+ */
 public class BendingDataStorage implements IDataStorage<BendingDataStorage> {
     public List<String> bendings = new ArrayList<String>();
     public Map<String, String> xps = new HashMap<String, String>();

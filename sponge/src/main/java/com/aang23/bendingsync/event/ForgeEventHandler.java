@@ -16,8 +16,13 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
-public class ForgeEventHandler {
 
+/**
+ * Listener class for Forge's EventBus
+ * 
+ * @author Aang23
+ */
+public class ForgeEventHandler {
     @SubscribeEvent
     public static void onBending(AbilityUseEvent event) {
         if (event.getEntity() instanceof EntityPlayer) {

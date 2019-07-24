@@ -7,6 +7,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * Packet that sends a player's infos to the client
+ * 
+ * @author Aang23
+ */
 public class PlayerInfoPacket implements IMessage {
 
     private int entityId;

@@ -9,11 +9,7 @@ import java.util.concurrent.TimeUnit;
 import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
-import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.CommonDataStorage;
-import com.aang23.bendingsync.storage.DSSDataStorage;
-import com.aang23.bendingsync.storage.EffectsDataStorage;
-import com.aang23.bendingsync.storage.InventoryDataStorage;
 import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.entity.living.player.Player;
@@ -26,6 +22,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 
+/**
+ * Contains a bunch of utils methods used in the plugin
+ * 
+ * @author Aang23
+ */
 public class BendingSyncUtils {
     private static List<String> bending_overrides = new ArrayList<String>();
     public static List<String> toBeSynced = new ArrayList<String>();

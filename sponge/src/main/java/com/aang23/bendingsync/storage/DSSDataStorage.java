@@ -15,6 +15,11 @@ import dynamicswordskills.entity.DSSPlayerInfo;
 import dynamicswordskills.skills.SkillBase;
 import net.minecraft.entity.player.EntityPlayer;
 
+/**
+ * Storage class for DSS related things
+ * 
+ * @author Aang23
+ */
 public class DSSDataStorage implements IDataStorage<DSSDataStorage> {
     public Map<String, String> levels = new HashMap<String, String>();
 

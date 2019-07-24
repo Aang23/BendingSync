@@ -11,6 +11,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * A class to handle the .json config file
+ * 
+ * @author Aang23
+ */
 public class ConfigManager {
     private static final Path config_path = new File("config").toPath();
 
@@ -23,6 +28,9 @@ public class ConfigManager {
     public static String port;
     public static String redis_address;
 
+    /**
+     * Setup the config as a whole. (Write defaults & load)
+     */
     public static void setupConfig() {
         if (!config_path.toFile().exists())
             config_path.toFile().mkdirs();
@@ -54,6 +62,11 @@ public class ConfigManager {
         redis_address = (String) config.get("redis_address");
     }
 
+    /**
+     * Writes the default config file
+     * 
+     * @throws FileNotFoundException
+     */
     private static void writeInitialConfig() throws FileNotFoundException {
         JSONObject configfile = new JSONObject();
 

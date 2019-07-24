@@ -12,6 +12,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+/**
+ * Storage class for Potions effects
+ * 
+ * @author Aang23
+ */
 public class EffectsDataStorage implements IDataStorage<EffectsDataStorage> {
     private JSONObject effects = new JSONObject();
 

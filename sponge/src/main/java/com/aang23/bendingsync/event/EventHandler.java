@@ -1,6 +1,5 @@
 package com.aang23.bendingsync.event;
 
-import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 
@@ -15,6 +14,11 @@ import org.spongepowered.api.text.title.Title;
 import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import me.ryanhamshire.griefprevention.api.event.BorderClaimEvent;
 
+/**
+ * Listener class for Sponge's EventBus
+ * 
+ * @author Aang23
+ */
 public class EventHandler {
     @Listener
     public void worldSaveEvent(SaveWorldEvent event) {

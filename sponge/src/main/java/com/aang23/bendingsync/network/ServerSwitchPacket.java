@@ -8,6 +8,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * Packet sent by the client when requesting a server switch
+ * 
+ * @author Aang23
+ */
 public class ServerSwitchPacket implements IMessage {
 
     private int name_length;

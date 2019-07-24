@@ -4,6 +4,12 @@ import java.util.UUID;
 
 import org.spongepowered.api.entity.living.player.Player;
 
+/**
+ * Common class that store an instance of each storage type. Used to clean
+ * things up
+ * 
+ * @author Aang23
+ */
 public class CommonDataStorage {
     private final UUID uuid;
     private BendingDataStorage bendingStorage;

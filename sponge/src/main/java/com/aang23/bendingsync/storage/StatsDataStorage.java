@@ -14,6 +14,11 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.GameType;
 
+/**
+ * Storage class for a player's capabilities, gamemode, food stats and health
+ * 
+ * @author Aang23
+ */
 public class StatsDataStorage implements IDataStorage<StatsDataStorage> {
     private JSONObject stats = new JSONObject();
 

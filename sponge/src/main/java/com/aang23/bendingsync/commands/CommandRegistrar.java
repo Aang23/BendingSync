@@ -7,6 +7,11 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.text.Text;
 
+/**
+ * Class used for registering commands
+ * 
+ * @author Aang23
+ */
 public class CommandRegistrar {
     public static void registerCommands() {
         // @formatter:off

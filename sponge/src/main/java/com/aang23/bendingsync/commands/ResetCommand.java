@@ -13,8 +13,11 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import net.minecraft.entity.player.EntityPlayer;
-
+/**
+ * Class for the data reset command.
+ * 
+ * @author Aang23
+ */
 public class ResetCommand implements CommandExecutor {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

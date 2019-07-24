@@ -4,7 +4,6 @@ import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
 import com.aang23.bendingsync.mysql.MysqlHandler;
-//import com.aang23.bendingsync.mysql.MysqlUtils;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.network.ServerSwitchPacket;
 import com.google.inject.Inject;
@@ -29,6 +28,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import redis.clients.jedis.Jedis;
 
+/**
+ * The main mod class, containing most APIs from other plugins.
+ * 
+ * @author Aang23
+ */
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "Syncs AV2 & DSS & ReSkillable", dependencies = {
         @Dependency(id = "griefprevention"), @Dependency(id = "luckperms") })
 public class BendingSync {
@@ -42,6 +46,7 @@ public class BendingSync {
     @Inject
     public static Logger logger;
 
+    // Keep an instance for use somewhere else
     public BendingSync() {
         INSTANCE = this;
     }
@@ -66,7 +71,6 @@ public class BendingSync {
     @Listener
     public void onServerStart(GameAboutToStartServerEvent event) {
         CommandRegistrar.registerCommands();
-        //MysqlUtils.setup();
         MysqlHandler.setupDatabase();
     }
 

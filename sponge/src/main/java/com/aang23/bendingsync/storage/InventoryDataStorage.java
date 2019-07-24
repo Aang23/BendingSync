@@ -11,6 +11,11 @@ import org.spongepowered.api.entity.living.player.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+/**
+ * Storage class for Inventories
+ * 
+ * @author Aang23
+ */
 public class InventoryDataStorage implements IDataStorage<InventoryDataStorage> {
     private JSONObject stacks = new JSONObject();
 
