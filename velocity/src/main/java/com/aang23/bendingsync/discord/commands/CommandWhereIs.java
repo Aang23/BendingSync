@@ -5,11 +5,13 @@ import java.util.Optional;
 import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.discord.DiscordCommand;
 import com.velocitypowered.api.proxy.ServerConnection;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * @author Aang23
+ */
 public class CommandWhereIs implements DiscordCommand {
 
     @Override

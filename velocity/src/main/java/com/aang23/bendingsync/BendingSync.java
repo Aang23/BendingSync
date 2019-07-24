@@ -35,6 +35,11 @@ import net.kyori.text.serializer.legacy.LegacyComponentSerializer;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
+/**
+ * The main class of BendingSync's proxy plugin
+ * 
+ * @author Aang23
+ */
 @Plugin(id = "bendingsync", name = "BendingSync", version = "1.0", description = "A plugin", authors = { "Aang23" })
 public class BendingSync {
     public static ProxyServer server;

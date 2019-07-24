@@ -1,11 +1,13 @@
 package com.aang23.bendingsync.discord.commands;
 
-import com.aang23.bendingsync.BendingSync;
 import com.aang23.bendingsync.discord.DiscordCommand;
 
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * @author Aang23
+ */
 public class CommandIp implements DiscordCommand {
 
     @Override

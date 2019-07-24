@@ -11,6 +11,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Class to handle the .json config file
+ * 
+ * @author Aang23
+ */
 public class ConfigManager {
     public static JSONObject config = null;
 
@@ -18,6 +23,11 @@ public class ConfigManager {
     public static String channelid;
     public static String redis_address;
 
+    /**
+     * Setup the config : Write default & load
+     * 
+     * @param config_path
+     */
     public static void setupConfig(Path config_path) {
         if (!config_path.toFile().exists())
             config_path.toFile().mkdirs();
@@ -46,6 +56,12 @@ public class ConfigManager {
         redis_address = (String) config.get("redis_address");
     }
 
+    /**
+     * Write default config file
+     * 
+     * @param config_path
+     * @throws FileNotFoundException
+     */
     private static void writeInitialConfig(Path config_path) throws FileNotFoundException {
         JSONObject configfile = new JSONObject();
 

@@ -7,6 +7,9 @@ import com.velocitypowered.api.proxy.Player;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * @author Aang23
+ */
 public class CommandPlayerList implements DiscordCommand {
 
     @Override

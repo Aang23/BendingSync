@@ -6,14 +6,29 @@ import java.util.Map;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+/**
+ * Class to handle discord commands
+ * 
+ * @author Aang23
+ */
 public class DiscordCommands {
     private static Map<String, DiscordCommand> COMMANDS = new HashMap<String, DiscordCommand>();
     private static final String COMMAND_PREFIX = "&";
 
+    /**
+     * Register a new command
+     * 
+     * @param cmd
+     */
     public static void registerCommand(DiscordCommand cmd) {
         COMMANDS.put(COMMAND_PREFIX + cmd.getCommandName(), cmd);
     }
 
+    /**
+     * Parse and execute the command if possible
+     * 
+     * @param e
+     */
     public static void runCommand(MessageReceivedEvent e) {
         String args[] = e.getMessage().getContentDisplay().split(" ");
         String cmd_name = args[0];
@@ -35,6 +50,11 @@ public class DiscordCommands {
         }
     }
 
+    /**
+     * Prints every commands and their syntax / usage
+     * 
+     * @param ch
+     */
     public static void listCommandsAndUsage(MessageChannel ch) {
         String list = "Commands :\n" + COMMAND_PREFIX + "help : Prints this message\n";
         for (DiscordCommand cmd : COMMANDS.values())
