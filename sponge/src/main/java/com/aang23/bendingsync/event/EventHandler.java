@@ -8,6 +8,8 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.world.SaveWorldEvent;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.title.Title;
 
 import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import me.ryanhamshire.griefprevention.api.event.BorderClaimEvent;
@@ -25,9 +27,12 @@ public class EventHandler {
     public void onPlayerLogin(ClientConnectionEvent.Join event) {
         // Apply data on login
         if (event.getSource() instanceof Player) {
-            BendingSyncUtils.applyDataFromDatabaseToPlayer((Player) event.getSource(), 5);
-            BendingSyncUtils.setToBeSynced((Player) event.getSource());
-            NucleusAPI.getFreezePlayerService().get().setFrozen((Player) event.getSource(), true);
+            Player player = (Player) event.getSource();
+            BendingSyncUtils.applyDataFromDatabaseToPlayer(player, 5);
+            BendingSyncUtils.setToBeSynced(player);
+            NucleusAPI.getFreezePlayerService().get().setFrozen(player, true);
+            player.sendTitle(Title.of(Text.of("Please wait"),
+                    Text.of("We are syncing your data! Your are frozen to prevent dupe bugs")));
         }
     }
 

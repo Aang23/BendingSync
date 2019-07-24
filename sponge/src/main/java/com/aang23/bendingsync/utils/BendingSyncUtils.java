@@ -17,6 +17,8 @@ import com.aang23.bendingsync.storage.InventoryDataStorage;
 import com.crowsofwar.avatar.common.data.Bender;
 
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.title.Title;
 
 import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import net.minecraft.entity.EntityTracker;
@@ -79,6 +81,7 @@ public class BendingSyncUtils {
                             if (isToBeSynced(player)) {
                                 toBeSynced.remove(uuid);
                                 NucleusAPI.getFreezePlayerService().get().setFrozen(player, false);
+                                player.sendTitle(Title.of(Text.of("Done!"), Text.of("You can now play")));
                             }
                         }
                     }
