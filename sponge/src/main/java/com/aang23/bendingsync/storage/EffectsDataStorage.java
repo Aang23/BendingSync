@@ -8,7 +8,6 @@ import org.json.simple.parser.ParseException;
 import org.spongepowered.api.entity.living.player.Player;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -40,23 +39,19 @@ public class EffectsDataStorage implements IDataStorage<EffectsDataStorage> {
             effects.put(i, sub_effects);
             i++;
         }
-        System.out.println(effects.toJSONString());
         return this;
     }
 
     public void restoreToPlayer(Player player) {
-        System.out.println("Called");
         EntityPlayer forgePlayer = (EntityPlayer) player;
 
         for (PotionEffect effect : forgePlayer.getActivePotionEffects())
             forgePlayer.removePotionEffect(effect.getPotion());
 
         for (int i = 0; true; i++) {
-            System.out.println(i + " B-> " + effects.toJSONString());
             JSONObject sub_effects = (JSONObject) effects.get(String.valueOf(i));
             if (sub_effects == null)
                 break;
-            System.out.println(i + " A-> " + sub_effects.toJSONString());
             int amp = ((Long) sub_effects.get("Amp")).intValue();
             String name = (String) sub_effects.get("Id");
             int dur = ((Long) sub_effects.get("Dur")).intValue();

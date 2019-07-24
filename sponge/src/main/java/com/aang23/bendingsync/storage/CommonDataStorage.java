@@ -10,6 +10,7 @@ public class CommonDataStorage {
     private DSSDataStorage dssStorage;
     private InventoryDataStorage inventoryStorage;
     private EffectsDataStorage effectsStorage;
+    private StatsDataStorage statsStorage;
 
     public CommonDataStorage(Player player) {
         this.uuid = player.getUniqueId();
@@ -17,15 +18,17 @@ public class CommonDataStorage {
         dssStorage = new DSSDataStorage().getFromPlayer(player);
         inventoryStorage = new InventoryDataStorage().getFromPlayer(player);
         effectsStorage = new EffectsDataStorage().getFromPlayer(player);
+        statsStorage = new StatsDataStorage().getFromPlayer(player);
     }
 
     public CommonDataStorage(UUID uuid, BendingDataStorage bendingData, DSSDataStorage dssData,
-            InventoryDataStorage inventoryData, EffectsDataStorage effectsData) {
+            InventoryDataStorage inventoryData, EffectsDataStorage effectsData, StatsDataStorage statsData) {
         this.uuid = uuid;
         bendingStorage = bendingData;
         dssStorage = dssData;
         inventoryStorage = inventoryData;
         effectsStorage = effectsData;
+        statsStorage = statsData;
     }
 
     public UUID getUuid() {
@@ -62,5 +65,13 @@ public class CommonDataStorage {
 
     public void setEffectsStorage(EffectsDataStorage effectsStorage) {
         this.effectsStorage = effectsStorage;
+    }
+
+    public StatsDataStorage getStatsStorage() {
+        return statsStorage;
+    }
+
+    public void setStatsStorage(StatsDataStorage statsStorage) {
+        this.statsStorage = statsStorage;
     }
 }

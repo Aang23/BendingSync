@@ -1,6 +1,7 @@
 package com.aang23.bendingsync.event;
 
 import com.aang23.bendingsync.BendingSync;
+import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 
 import org.spongepowered.api.entity.living.player.Player;
@@ -29,10 +30,12 @@ public class EventHandler {
         if (event.getSource() instanceof Player) {
             Player player = (Player) event.getSource();
             BendingSyncUtils.applyDataFromDatabaseToPlayer(player, 5);
-            BendingSyncUtils.setToBeSynced(player);
-            NucleusAPI.getFreezePlayerService().get().setFrozen(player, true);
-            player.sendTitle(Title.of(Text.of("Please wait"),
-                    Text.of("We are syncing your data! Your are frozen to prevent dupe bugs")));
+            if (MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
+                BendingSyncUtils.setToBeSynced(player);
+                NucleusAPI.getFreezePlayerService().get().setFrozen(player, true);
+                player.sendTitle(Title.of(Text.of("Please wait"),
+                        Text.of("We are syncing your data! Your are frozen to prevent dupe bugs")));
+            }
         }
     }
 

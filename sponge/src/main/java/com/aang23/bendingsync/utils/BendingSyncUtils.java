@@ -40,12 +40,7 @@ public class BendingSyncUtils {
         if (isDataOverriden(player) || isToBeSynced(player))
             return;
 
-        BendingDataStorage bending = new BendingDataStorage().getFromPlayer(player);
-        DSSDataStorage dss = new DSSDataStorage().getFromPlayer(player);
-        InventoryDataStorage inventory = new InventoryDataStorage().getFromPlayer(player);
-        EffectsDataStorage effects = new EffectsDataStorage().getFromPlayer(player);
-
-        CommonDataStorage common = new CommonDataStorage(player.getUniqueId(), bending, dss, inventory, effects);
+        CommonDataStorage common = new CommonDataStorage(player);
 
         MysqlHandler.saveStorage(common);
     }
@@ -78,6 +73,7 @@ public class BendingSyncUtils {
                             storage.getDssStorage().restoreToPlayer(player);
                             storage.getInventoryStorage().restoreToPlayer(player);
                             storage.getEffectsStorage().restoreToPlayer(player);
+                            storage.getStatsStorage().restoreToPlayer(player);
                             if (isToBeSynced(player)) {
                                 toBeSynced.remove(uuid);
                                 NucleusAPI.getFreezePlayerService().get().setFrozen(player, false);
