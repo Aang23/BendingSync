@@ -7,6 +7,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * Packet sent to the server to request a sever switch
+ * 
+ * @author Aang23
+ */
 public class ServerSwitchPacket implements IMessage {
 
     private int uuid_length;

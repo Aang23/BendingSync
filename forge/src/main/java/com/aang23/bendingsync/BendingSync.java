@@ -27,6 +27,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
+/**
+ * BendingSync's forge mod main class
+ * 
+ * @author Aang23
+ */
 @Mod(modid = BendingSync.MODID, name = BendingSync.NAME, version = BendingSync.VERSION)
 public class BendingSync {
     public static final String MODID = "bendingsync";
@@ -50,16 +55,25 @@ public class BendingSync {
 
     private KeyBinding stats = new KeyBinding("GUI test", Keyboard.KEY_U, "BendingSync");
 
+    /**
+     * Listen for keypresses
+     * 
+     * @param e
+     */
     @SubscribeEvent
-    public void onJoin(ClientTickEvent e) {
+    public void onClientTick(ClientTickEvent e) {
         if (stats.isKeyDown()) {
-
             FMLClientHandler.instance().showGuiScreen(new GuiServerSwitch());
             // Minecraft.getMinecraft().setIngameNotInFocus();
         }
 
     }
 
+    /**
+     * Adds the prefix on the nametag
+     * 
+     * @param e
+     */
     @SubscribeEvent
     public void onTagRender(PlayerEvent.NameFormat e) {
         String prefix = "";
@@ -69,11 +83,22 @@ public class BendingSync {
         e.setDisplayname(name);
     }
 
+    /**
+     * Sends a server switch request to the server
+     * 
+     * @param server
+     */
     public static void sendSwitchPacket(String server) {
         EntityPlayer player = Minecraft.getMinecraft().player;
         player.world.sendPacketToServer(NETWORK.getPacketFrom(new ServerSwitchPacket(player.getName(), server)));
     }
 
+    /**
+     * Simple function to format a given string with &
+     * 
+     * @param text
+     * @return
+     */
     private String getFormattedText(String text) {
         String finalString = "";
         for (int i = 0; i < text.length(); i++) {

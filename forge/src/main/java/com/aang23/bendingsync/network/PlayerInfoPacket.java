@@ -8,6 +8,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+/**
+ * Packet sent by the server containing infos about a player. e.g : Their prefix
+ * 
+ * @author Aang23
+ */
 public class PlayerInfoPacket implements IMessage {
 
     private int entityId;

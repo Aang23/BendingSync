@@ -9,6 +9,12 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
+/**
+ * The server switch GUI class which handle buttons, rendering, and packet
+ * sending
+ * 
+ * @author Aang23
+ */
 public class GuiServerSwitch extends GuiScreen {
     public static final ResourceLocation BACKGROUND = new ResourceLocation(BendingSync.MODID, "textures/gui/img.png");
 
