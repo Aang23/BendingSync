@@ -12,6 +12,7 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
@@ -90,5 +91,15 @@ public class ForgeEventHandler {
         // Safety
         if (ranTimes == Long.MAX_VALUE)
             ranTimes = 0;
+    }
+
+    @SubscribeEvent
+    public static void onItemDrop(ItemTossEvent event) {
+        if (event.getEntity() instanceof EntityPlayer) {
+            Player spongePlayer = (Player) event.getEntity();
+            if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
+                event.setCanceled(true);
+            }
+        }
     }
 }
