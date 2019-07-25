@@ -100,11 +100,9 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void onItemDrop(ItemTossEvent event) {
-        if (event.getEntity() instanceof EntityPlayer) {
-            Player spongePlayer = (Player) event.getEntity();
-            if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
-                event.setCanceled(true);
-            }
+        Player spongePlayer = (Player) event.getPlayer();
+        if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
+            event.setCanceled(true);
         }
     }
 
@@ -112,7 +110,7 @@ public class ForgeEventHandler {
     public static void onPickupItem(ItemPickupEvent event) {
         Player spongePlayer = (Player) event.player;
         if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
-            event.setCanceled(true);
+            event.getStack().setCount(0);
         }
     }
 }
