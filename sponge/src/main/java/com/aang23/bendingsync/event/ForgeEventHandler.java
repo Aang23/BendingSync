@@ -14,8 +14,8 @@ import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-
 
 /**
  * Listener class for Forge's EventBus
@@ -105,6 +105,14 @@ public class ForgeEventHandler {
             if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
                 event.setCanceled(true);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPickupItem(ItemPickupEvent event) {
+        Player spongePlayer = (Player) event.player;
+        if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
+            event.setCanceled(true);
         }
     }
 }
