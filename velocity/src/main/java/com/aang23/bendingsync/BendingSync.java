@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 import javax.security.auth.login.LoginException;
 
+import com.aang23.bendingsync.commands.CommandKick;
 import com.aang23.bendingsync.discord.DiscordCommands;
 import com.aang23.bendingsync.discord.commands.CommandChat;
 import com.aang23.bendingsync.discord.commands.CommandIp;
@@ -65,6 +66,8 @@ public class BendingSync {
         logger.info("Loading BendingSync");
 
         setupRedisSubscriber();
+
+        commandManager.register(new CommandKick(), "kick");
 
         DiscordCommands.registerCommand(new CommandOnline());
         DiscordCommands.registerCommand(new CommandPlayerList());
