@@ -53,7 +53,7 @@ public class MysqlHandler {
         // @formatter:off
         BendingSync.MYSQL.open()
                 .createQuery("INSERT INTO players_data (uuid, bending, dss, inventory, effects, stats, end) "
-                        + "VALUES (:uuid, :bending, :dss, :inventory, :effects, :stats)  " 
+                        + "VALUES (:uuid, :bending, :dss, :inventory, :effects, :stats, :end)  " 
                         + "ON DUPLICATE KEY UPDATE bending=:bending, dss=:dss, inventory=:inventory, effects=:effects, stats=:stats, end=:end")
                 .addParameter("uuid", uuid)
                 .addParameter("bending", bending)
