@@ -20,29 +20,36 @@ public class CommandKick implements Command {
 
     @Override
     public void execute(@NonNull CommandSource source, String[] args) {
-        source.hasPermission("bendingsync.command.kick");
 
-        if (args.length == 1) {
-            String p_name = args[0];
-            Optional<Player> player = BendingSync.server.getPlayer(p_name);
-            if (player.isPresent()) {
-                player.get().disconnect(TextComponent.of("You've been kicked!").color(TextColor.RED));
+        if (source.hasPermission("bendingsync.command.kick")) {
+
+            if (args.length == 1) {
+                String p_name = args[0];
+                Optional<Player> player = BendingSync.server.getPlayer(p_name);
+                if (player.isPresent()) {
+                    player.get().disconnect(TextComponent.of("You've been kicked!").color(TextColor.RED));
+                } else {
+                    source.sendMessage(
+                            TextComponent.of("The player " + p_name + " is not online!").color(TextColor.RED));
+                }
+            } else if (args.length >= 2) {
+                String p_name = args[0];
+                String message = "";
+                for (int i = 1; i < args.length; i++)
+                    message += args[i] + " ";
+                Optional<Player> player = BendingSync.server.getPlayer(p_name);
+                if (player.isPresent()) {
+                    player.get().disconnect(LegacyComponentSerializer.INSTANCE.deserialize(message, '&'));
+                } else {
+                    source.sendMessage(
+                            TextComponent.of("The player " + p_name + " is not online!").color(TextColor.RED));
+                }
             } else {
-                source.sendMessage(TextComponent.of("The player " + p_name + " is not online!").color(TextColor.RED));
-            }
-        } else if (args.length >= 2) {
-            String p_name = args[0];
-            String message = "";
-            for (int i = 1; i < args.length; i++)
-                message += args[i] + " ";
-            Optional<Player> player = BendingSync.server.getPlayer(p_name);
-            if (player.isPresent()) {
-                player.get().disconnect(LegacyComponentSerializer.INSTANCE.deserialize(message, '&'));
-            } else {
-                source.sendMessage(TextComponent.of("The player " + p_name + " is not online!").color(TextColor.RED));
+                sendUsage(source);
             }
         } else {
-            sendUsage(source);
+            source.sendMessage(
+                    TextComponent.of("You don't have the permission to use that command!").color(TextColor.RED));
         }
     }
 
