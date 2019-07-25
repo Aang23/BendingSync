@@ -105,12 +105,4 @@ public class ForgeEventHandler {
             event.setCanceled(true);
         }
     }
-
-    @SubscribeEvent
-    public static void onPickupItem(ItemPickupEvent event) {
-        Player spongePlayer = (Player) event.player;
-        if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
-            event.getStack().setCount(0);
-        }
-    }
 }

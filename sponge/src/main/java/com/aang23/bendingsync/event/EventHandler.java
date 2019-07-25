@@ -1,10 +1,14 @@
 package com.aang23.bendingsync.event;
 
+import java.util.List;
+
 import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
 
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.entity.CollideEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.world.SaveWorldEvent;
@@ -13,6 +17,7 @@ import org.spongepowered.api.text.title.Title;
 
 import io.github.nucleuspowered.nucleus.api.NucleusAPI;
 import me.ryanhamshire.griefprevention.api.event.BorderClaimEvent;
+import net.minecraft.entity.item.EntityItem;
 
 /**
  * Listener class for Sponge's EventBus
@@ -54,5 +59,15 @@ public class EventHandler {
     @Listener
     public void onClaimEnter(BorderClaimEvent e, @First Player player) {
 
+    }
+
+    @Listener
+    public void onItemPickup(CollideEntityEvent event, @First Player player) {
+        List<? extends Entity> entityItems = event.filterEntities(entity -> !(entity instanceof EntityItem));
+        if (entityItems.size() >= 1) {
+            if (NucleusAPI.getFreezePlayerService().get().isFrozen(player.getUniqueId())) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
