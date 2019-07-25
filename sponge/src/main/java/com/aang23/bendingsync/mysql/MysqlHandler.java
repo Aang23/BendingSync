@@ -14,6 +14,7 @@ import com.aang23.bendingsync.storage.BendingDataStorage;
 import com.aang23.bendingsync.storage.CommonDataStorage;
 import com.aang23.bendingsync.storage.DSSDataStorage;
 import com.aang23.bendingsync.storage.EffectsDataStorage;
+import com.aang23.bendingsync.storage.EnderChestDataStorage;
 import com.aang23.bendingsync.storage.InventoryDataStorage;
 import com.aang23.bendingsync.storage.StatsDataStorage;
 
@@ -31,7 +32,7 @@ public class MysqlHandler {
      */
     public static void setupDatabase() {
         BendingSync.MYSQL.open().createQuery(
-                "CREATE TABLE IF NOT EXISTS players_data (uuid VARCHAR(100), bending TEXT(10000), dss TEXT(10000), inventory TEXT(10000), effects TEXT(10000), stats TEXT(10000), PRIMARY KEY (`uuid`))")
+                "CREATE TABLE IF NOT EXISTS players_data (uuid VARCHAR(100), bending TEXT(10000), dss TEXT(10000), inventory TEXT(10000), effects TEXT(10000), stats TEXT(10000), end TEXT(10000), PRIMARY KEY (`uuid`))")
                 .executeUpdate();
     }
 
@@ -47,18 +48,20 @@ public class MysqlHandler {
         String inv = commonStorage.getInventoryStorage().toJsonString();
         String eff = commonStorage.getEffectsStorage().toJsonString();
         String sta = commonStorage.getStatsStorage().toJsonString();
+        String end = commonStorage.getEndStorage().toJsonString();
 
         // @formatter:off
         BendingSync.MYSQL.open()
-                .createQuery("INSERT INTO players_data (uuid, bending, dss, inventory, effects, stats) "
+                .createQuery("INSERT INTO players_data (uuid, bending, dss, inventory, effects, stats, end) "
                         + "VALUES (:uuid, :bending, :dss, :inventory, :effects, :stats)  " 
-                        + "ON DUPLICATE KEY UPDATE bending=:bending, dss=:dss, inventory=:inventory, effects=:effects, stats=:stats")
+                        + "ON DUPLICATE KEY UPDATE bending=:bending, dss=:dss, inventory=:inventory, effects=:effects, stats=:stats, end=:end")
                 .addParameter("uuid", uuid)
                 .addParameter("bending", bending)
                 .addParameter("dss", dss)
                 .addParameter("inventory", inv)
                 .addParameter("effects", eff)
                 .addParameter("stats", sta)
+                .addParameter("end", end)
                 .executeUpdate();
         // @formatter:on
     }
@@ -75,14 +78,16 @@ public class MysqlHandler {
         InventoryDataStorage inventory = new InventoryDataStorage();
         EffectsDataStorage effects = new EffectsDataStorage();
         StatsDataStorage stats = new StatsDataStorage();
+        EnderChestDataStorage end = new EnderChestDataStorage();
 
         bending.fromJsonString(getContentForUuidOf(uuid, "bending"));
         dss.fromJsonString(getContentForUuidOf(uuid, "dss"));
         inventory.fromJsonString(getContentForUuidOf(uuid, "inventory"));
         effects.fromJsonString(getContentForUuidOf(uuid, "effects"));
         stats.fromJsonString(getContentForUuidOf(uuid, "stats"));
+        end.fromJsonString(getContentForUuidOf(uuid, "end"));
 
-        return new CommonDataStorage(UUID.fromString(uuid), bending, dss, inventory, effects, stats);
+        return new CommonDataStorage(UUID.fromString(uuid), bending, dss, inventory, effects, stats, end);
     }
 
     /**

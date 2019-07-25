@@ -75,6 +75,7 @@ public class BendingSyncUtils {
                             storage.getInventoryStorage().restoreToPlayer(player);
                             storage.getEffectsStorage().restoreToPlayer(player);
                             storage.getStatsStorage().restoreToPlayer(player);
+                            storage.getEndStorage().restoreToPlayer(player);
                             if (isToBeSynced(player)) {
                                 toBeSynced.remove(uuid);
                                 NucleusAPI.getFreezePlayerService().get().setFrozen(player, false);
