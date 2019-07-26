@@ -10,7 +10,6 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.CollideEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
-import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.event.world.SaveWorldEvent;
 import org.spongepowered.api.text.Text;
@@ -63,10 +62,16 @@ public class EventHandler {
     }
 
     @Listener
-    public void onItemPickup(ChangeInventoryEvent.Pickup event) {
-        if (event.getSource() instanceof Player) {
-            Player player = (Player) event.getSource();
+    public void onItemPickup(CollideEntityEvent event, @First Player player) {
+        List<Entity> entityItems = event.getEntities();
+        entityItems.removeIf(entity -> !(entity instanceof EntityItem));
+        if (entityItems.size() > 0 && player != null) {
+            System.out.println(entityItems.toString());
+            System.out.println(player.toString());
+            System.out.println(NucleusAPI.getFreezePlayerService().get().isFrozen(player.getUniqueId()));
             if (NucleusAPI.getFreezePlayerService().get().isFrozen(player.getUniqueId())) {
+                event.setCancelled(true);
+            } else {
                 event.setCancelled(true);
             }
         }

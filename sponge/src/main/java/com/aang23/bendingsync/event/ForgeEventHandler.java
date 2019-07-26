@@ -102,6 +102,7 @@ public class ForgeEventHandler {
     public static void onItemDrop(ItemTossEvent event) {
         Player spongePlayer = (Player) event.getPlayer();
         if (NucleusAPI.getFreezePlayerService().get().isFrozen(spongePlayer.getUniqueId())) {
+            event.getPlayer().inventory.addItemStackToInventory(event.getEntityItem().getItem());
             event.setCanceled(true);
         }
     }
