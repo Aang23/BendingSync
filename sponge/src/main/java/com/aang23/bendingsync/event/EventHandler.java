@@ -1,6 +1,7 @@
 package com.aang23.bendingsync.event;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.aang23.bendingsync.utils.BendingSyncUtils;
@@ -63,17 +64,18 @@ public class EventHandler {
 
     @Listener
     public void onItemPickup(CollideEntityEvent event, @First Player player) {
-        List<Entity> entityItems = event.getEntities();
-        entityItems.removeIf(entity -> !(entity instanceof EntityItem));
-        if (entityItems.size() > 0 && player != null) {
-            System.out.println(entityItems.toString());
-            System.out.println(player.toString());
-            System.out.println(NucleusAPI.getFreezePlayerService().get().isFrozen(player.getUniqueId()));
-            if (NucleusAPI.getFreezePlayerService().get().isFrozen(player.getUniqueId())) {
-                event.setCancelled(true);
-            } else {
-                event.setCancelled(true);
+        event.filterEntities(new Predicate<Entity>() {
+            @Override
+            public boolean test(Entity t) {
+                if (t instanceof EntityItem) {
+                    if (NucleusAPI.getFreezePlayerService().get().isFrozen(player.getUniqueId())) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } else
+                    return true;
             }
-        }
+        });
     }
 }
