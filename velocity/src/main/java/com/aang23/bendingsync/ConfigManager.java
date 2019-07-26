@@ -22,6 +22,11 @@ public class ConfigManager {
     public static String discord_token;
     public static String channelid;
     public static String redis_address;
+    public static String address;
+    public static String username;
+    public static String password;
+    public static String database;
+    public static String port;
 
     /**
      * Setup the config : Write default & load
@@ -54,6 +59,11 @@ public class ConfigManager {
         discord_token = (String) config.get("discord_token");
         channelid = (String) config.get("channelid");
         redis_address = (String) config.get("redis_address");
+        address = (String) config.get("address");
+        username = (String) config.get("username");
+        password = (String) config.get("password");
+        database = (String) config.get("database");
+        port = (String) config.get("port");
     }
 
     /**
@@ -68,6 +78,11 @@ public class ConfigManager {
         configfile.put("discord_token", "tokenhere");
         configfile.put("channelid", "00000000000000");
         configfile.put("redis_address", "localhost");
+        configfile.put("address", "localhost");
+        configfile.put("username", "bendingsync");
+        configfile.put("password", "minecraft");
+        configfile.put("database", "bendingsync");
+        configfile.put("port", "3306");
 
         PrintWriter pw = new PrintWriter(config_path.toString() + "/bendingsync.json");
         pw.write(configfile.toJSONString());
