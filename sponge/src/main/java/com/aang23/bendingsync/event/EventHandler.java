@@ -38,7 +38,12 @@ public class EventHandler {
     public void onPlayerLogin(ClientConnectionEvent.Join event) {
         // Apply data on login
         if (event.getSource() instanceof Player) {
+
             Player player = (Player) event.getSource();
+
+            if (player.hasPermission("bendingsync.sync.exempt"))
+                return;
+
             BendingSyncUtils.applyDataFromDatabaseToPlayer(player, 5);
             if (MysqlHandler.doesPlayerExists(player.getUniqueId().toString())) {
                 BendingSyncUtils.setToBeSynced(player);

@@ -38,7 +38,11 @@ public class BendingSyncUtils {
      * @param player
      */
     public static void saveDataToDatabaseForPlayer(Player player) {
-        if (isDataOverriden(player) || isToBeSynced(player) || player.hasPermission("bendingsync.sync.exempt"))
+
+        if (player.hasPermission("bendingsync.sync.exempt"))
+            return;
+
+        if (isDataOverriden(player) || isToBeSynced(player))
             return;
 
         CommonDataStorage common = new CommonDataStorage(player);
@@ -53,7 +57,11 @@ public class BendingSyncUtils {
      * @param player
      */
     public static void applyDataFromDatabaseToPlayer(Player player, int delay) {
-        if (isDataOverriden(player) || player.hasPermission("bendingsync.sync.exempt"))
+
+        if (player.hasPermission("bendingsync.sync.exempt"))
+            return;
+
+        if (isDataOverriden(player))
             return;
 
         EntityPlayer mcPlayer = (EntityPlayer) player;
