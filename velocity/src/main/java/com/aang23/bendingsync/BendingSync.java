@@ -4,7 +4,10 @@ import java.nio.file.Path;
 
 import javax.security.auth.login.LoginException;
 
+import com.aang23.bendingsync.commands.CommandBan;
 import com.aang23.bendingsync.commands.CommandKick;
+import com.aang23.bendingsync.commands.CommandKickall;
+import com.aang23.bendingsync.commands.CommandUnban;
 import com.aang23.bendingsync.discord.DiscordCommands;
 import com.aang23.bendingsync.discord.commands.CommandChat;
 import com.aang23.bendingsync.discord.commands.CommandIp;
@@ -13,6 +16,7 @@ import com.aang23.bendingsync.discord.commands.CommandPlayerCount;
 import com.aang23.bendingsync.discord.commands.CommandPlayerList;
 import com.aang23.bendingsync.discord.commands.CommandServerList;
 import com.aang23.bendingsync.discord.commands.CommandWhereIs;
+import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
@@ -26,6 +30,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import org.slf4j.Logger;
+import org.sql2o.Sql2o;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -48,6 +53,7 @@ public class BendingSync {
     public static Logger logger;
     public static JDA jda;
     public static Jedis REDIS;
+    public static Sql2o MYSQL;
 
     @Inject
     public BendingSync(ProxyServer lserver, CommandManager commandManager, EventManager eventManager, Logger llogger,
@@ -68,7 +74,17 @@ public class BendingSync {
 
         setupRedisSubscriber();
 
+        MYSQL = new Sql2o("jdbc:mysql://" + ConfigManager.address + ":" + ConfigManager.port + "/"
+                + ConfigManager.database
+                + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                ConfigManager.username, ConfigManager.password);
+
+        MysqlHandler.setupDatabase();
+
         commandManager.register(new CommandKick(), "kick");
+        commandManager.register(new CommandKickall(), "kickall");
+        commandManager.register(new CommandBan(), "ban");
+        commandManager.register(new CommandUnban(), "unban");
 
         DiscordCommands.registerCommand(new CommandOnline());
         DiscordCommands.registerCommand(new CommandPlayerList());
@@ -82,6 +98,16 @@ public class BendingSync {
     @Subscribe
     public void onInitialization(ProxyInitializeEvent event) {
 
+    }
+
+    @Subscribe
+    public void onPlayerConnect(ServerPreConnectEvent event) {
+        Player player = event.getPlayer();
+        if (MysqlHandler.isPlayerBannedUuid(player.getGameProfile().getId().toString())) {
+            String reason = MysqlHandler.getBanReason(player.getGameProfile().getId().toString());
+            player.disconnect(LegacyComponentSerializer.INSTANCE
+                    .deserialize("&4You are banned from this server!\n&rReason:\n" + reason, '&'));
+        }
     }
 
     private void setupRedisSubscriber() {
