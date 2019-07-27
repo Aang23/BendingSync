@@ -1,6 +1,7 @@
 package com.aang23.bendingsync;
 
 import java.nio.file.Path;
+import java.sql.SQLException;
 
 import javax.security.auth.login.LoginException;
 
@@ -73,6 +74,12 @@ public class BendingSync {
         logger.info("Loading BendingSync");
 
         setupRedisSubscriber();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         MYSQL = new Sql2o("jdbc:mysql://" + ConfigManager.address + ":" + ConfigManager.port + "/"
                 + ConfigManager.database

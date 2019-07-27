@@ -30,9 +30,7 @@ public class MysqlHandler {
     public static void setUserban(String uuid, String name, String reason) {
         // @formatter:off
         BendingSync.MYSQL.open()
-                .createQuery("INSERT INTO banned_players (uuid, name, reason) "
-                        + "VALUES (:uuid, :name, :reason) " 
-                        + "ON DUPLICATE KEY UPDATE uuid=:uuid name=:name reason=:reason")
+                .createQuery("INSERT INTO banned_players (uuid, name, reason) VALUES (:uuid, :name, :reason)")
                 .addParameter("uuid", uuid)
                 .addParameter("reason", reason)
                 .addParameter("name", name)
