@@ -3,6 +3,7 @@ package com.aang23.bendingsync;
 import com.aang23.bendingsync.commands.CommandRegistrar;
 import com.aang23.bendingsync.event.EventHandler;
 import com.aang23.bendingsync.event.ForgeEventHandler;
+import com.aang23.bendingsync.event.RedisEventHandler;
 import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.aang23.bendingsync.network.PlayerInfoPacket;
 import com.aang23.bendingsync.network.ServerSwitchPacket;
@@ -72,6 +73,17 @@ public class BendingSync {
     public void onServerStart(GameAboutToStartServerEvent event) {
         CommandRegistrar.registerCommands();
         MysqlHandler.setupDatabase();
+
+        // Start a thread for our redis subscriber
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    REDIS.subscribe(new RedisEventHandler(), "bendingsync");
+                } catch (Exception e) {
+                }
+            }
+        }).start();
     }
 
     @Listener
