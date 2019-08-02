@@ -16,6 +16,7 @@ import com.aang23.bendingsync.discord.commands.CommandOnline;
 import com.aang23.bendingsync.discord.commands.CommandPlayerCount;
 import com.aang23.bendingsync.discord.commands.CommandPlayerList;
 import com.aang23.bendingsync.discord.commands.CommandServerList;
+import com.aang23.bendingsync.discord.commands.CommandStatus;
 import com.aang23.bendingsync.discord.commands.CommandWhereIs;
 import com.aang23.bendingsync.mysql.MysqlHandler;
 import com.google.inject.Inject;
@@ -100,6 +101,7 @@ public class BendingSync {
         DiscordCommands.registerCommand(new CommandWhereIs());
         DiscordCommands.registerCommand(new CommandChat());
         DiscordCommands.registerCommand(new CommandServerList());
+        DiscordCommands.registerCommand(new CommandStatus());
     }
 
     @Subscribe
